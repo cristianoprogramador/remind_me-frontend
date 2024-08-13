@@ -14,10 +14,10 @@ export default function Home() {
   }
 
   if (
-    status !== "authenticated"
-    // && session?.user
+    true
+    // status === "authenticated"
+    //  && session?.user
   ) {
-    // Usuário está autenticado, exibe a Home
     return <HomePage />;
   }
 
