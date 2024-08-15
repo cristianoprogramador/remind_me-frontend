@@ -80,7 +80,7 @@ const UserSelect: React.FC<UserSelectProps> = ({
   };
 
   const MultiValue = ({ index, getValue, ...props }: any) => {
-    const maxToShow = 1; // Define o número máximo de nomes a exibir
+    const maxToShow = 1;
     const overflowValue = getValue().length - maxToShow;
 
     if (index < maxToShow) {
@@ -88,13 +88,17 @@ const UserSelect: React.FC<UserSelectProps> = ({
     }
 
     if (index === maxToShow) {
+      const allSelectedLabels = getValue()
+        .slice(1)
+        .map((option: { label: string }) => option.label)
+        .join(", ");
+
       return (
         <components.MultiValue {...props}>
-          <span>{`+ ${overflowValue}`}</span>
+          <span title={allSelectedLabels}>{`+ ${overflowValue}`}</span>
         </components.MultiValue>
       );
     }
-
     return null;
   };
 

@@ -60,6 +60,9 @@ const CategorySelect: React.FC<CategorySelectProps> = ({
     }),
   };
 
+  const formatCreateLabel = (inputValue: string) => `Criar "${inputValue}"`;
+
+
   return (
     <CreatableSelect
       isClearable
@@ -69,6 +72,7 @@ const CategorySelect: React.FC<CategorySelectProps> = ({
       onChange={handleChange}
       onCreateOption={handleCreate}
       placeholder="Categoria"
+      formatCreateLabel={formatCreateLabel}
     />
   );
 };
