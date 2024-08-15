@@ -51,7 +51,7 @@ export function CreateRemind() {
       <div>
         <input
           type="text"
-          className="w-full bg-transparent pl-5 py-4 text-white"
+          className="w-full bg-transparent pl-5 py-4 text-white outline-none"
           placeholder="Eu preciso lembrar de..."
         />
       </div>

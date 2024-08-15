@@ -51,22 +51,10 @@ export function SearchRemind() {
       <div className="flex flex-row items-center justify-center">
         <input
           type="text"
-          className="w-full bg-transparent pl-5 py-4 text-white"
-          placeholder="Escreva algo para buscar..."
+          className="w-full bg-transparent pl-5 py-4 text-white outline-none"
+          placeholder="Buscar por..."
         />
-        <button className="h-10 w-32 bg-gray-200 text-slate-800 transition-all duration-400 ease-in-out transform hover:bg-blue-600 hover:text-white rounded-md mr-4">
-          Buscar
-        </button>
-      </div>
-      <div className="h-[1px] w-full bg-gray-300 mb-4" />
-      <div className="flex flex-row text-white justify-between items-center mb-2">
-        <div className="flex flex-row gap-3 ml-4 items-center text-xs">
-          <UserSelect
-            users={users}
-            selectedUserIds={selectedUserIds}
-            onChange={handleUserChange}
-            fixedUserId={fixedUserId}
-          />
+        <div className="flex flex-wrap mx-4 w-72 text-xs">
           <CategorySelect
             categories={categories}
             selectedCategory={selectedCategory}
@@ -74,6 +62,9 @@ export function SearchRemind() {
             onAddCategory={handleAddCategory}
           />
         </div>
+        <button className="h-10 w-32 bg-gray-200 text-slate-800 transition-all duration-400 ease-in-out transform hover:bg-blue-600 hover:text-white rounded-md mr-4">
+          Buscar
+        </button>
       </div>
     </div>
   );

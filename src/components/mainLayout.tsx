@@ -6,6 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 import { TfiWrite } from "react-icons/tfi";
 import { LuCalendarClock, LuSettings } from "react-icons/lu";
+import { MdManageSearch } from "react-icons/md";
 
 interface MainLayoutProps {
   children: ReactNode;
@@ -53,9 +54,9 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
             icon={<TfiWrite size={20} />}
           />
           <MenuItem
-            path="/incoming"
-            title="Próximos Avisos"
-            icon={<LuCalendarClock size={20} />}
+            path="/search"
+            title="Buscar"
+            icon={<MdManageSearch size={20} />}
           />
           <MenuItem
             path="/profile"
