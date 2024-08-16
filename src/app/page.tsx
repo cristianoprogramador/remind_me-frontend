@@ -14,9 +14,9 @@ export default function Home() {
   }
 
   if (
-    true
-    // status === "authenticated"
-    //  && session?.user
+    // true
+    status === "authenticated"
+     && session?.user
   ) {
     return <HomePage />;
   }

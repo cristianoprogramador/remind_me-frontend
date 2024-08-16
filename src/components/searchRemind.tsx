@@ -1,8 +1,5 @@
 import CategorySelect, { CategoryOption } from "@/components/categorySelect";
-import UserSelect from "@/components/userSelect";
 import { useState } from "react";
-import { CiImageOn } from "react-icons/ci";
-import { FiCalendar } from "react-icons/fi";
 
 const users = [
   { id: "1", nome: "Cristiano" },

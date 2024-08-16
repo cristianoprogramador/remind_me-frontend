@@ -1,4 +1,4 @@
-// src\app\api\auth\[...nextauth].ts
+// src\pages\api\auth\[...nextauth].ts
 import NextAuth, { NextAuthOptions, User } from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";

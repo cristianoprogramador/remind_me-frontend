@@ -17,11 +17,10 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
     return <LoadingSpinner />;
   }
 
-
   if (
-    true
-    // status !== "authenticated"
-    // && session?.user
+    // true
+    status === "authenticated"
+     && session?.user
   ) {
     return <MainLayout>{children}</MainLayout>;
   }

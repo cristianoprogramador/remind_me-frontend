@@ -5,7 +5,7 @@ import { CgProfile } from "react-icons/cg";
 import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 import { TfiWrite } from "react-icons/tfi";
-import { LuCalendarClock, LuSettings } from "react-icons/lu";
+import { LuSettings } from "react-icons/lu";
 import { MdManageSearch } from "react-icons/md";
 
 interface MainLayoutProps {
