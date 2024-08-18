@@ -48,7 +48,7 @@ export const authOptions: NextAuthOptions = {
         try {
           const { email, password } = credentials;
 
-          const res = await fetch(`${process.env.BACKEND_URL}/auth/login`, {
+          const res = await fetch(`${process.env.NEXTAUTH_URL_INTERNAL}/auth/login`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -102,7 +102,7 @@ export const authOptions: NextAuthOptions = {
     },
     async signIn({ user, account }) {
       // Faz a requisição para o backend para verificar se o usuário já existe
-      const res = await fetch(`${process.env.BACKEND_URL}/auth/check-user`, {
+      const res = await fetch(`${process.env.NEXTAUTH_URL_INTERNAL}/auth/check-user`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -119,7 +119,7 @@ export const authOptions: NextAuthOptions = {
 
       // Se o usuário não existir, cria um novo
       const resCreate = await fetch(
-        `${process.env.BACKEND_URL}/auth/register`,
+        `${process.env.NEXTAUTH_URL_INTERNAL}/auth/register`,
         {
           method: "POST",
           headers: {

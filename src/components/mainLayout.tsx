@@ -7,18 +7,21 @@ import Image from "next/image";
 import { TfiWrite } from "react-icons/tfi";
 import { LuSettings } from "react-icons/lu";
 import { MdManageSearch } from "react-icons/md";
+import { FiLogOut } from "react-icons/fi";
+import { signOut } from "next-auth/react";
 
 interface MainLayoutProps {
   children: ReactNode;
 }
 
 interface MenuItemProps {
-  path: string;
+  path?: string;
   title: string;
   icon: React.ReactNode;
+  onClick?: () => void;
 }
 
-const MenuItem: React.FC<MenuItemProps> = ({ path, title, icon }) => {
+const MenuItem: React.FC<MenuItemProps> = ({ path, title, icon, onClick }) => {
   const router = useRouter();
   const pathname = usePathname();
   const isActive = pathname === path;
@@ -29,7 +32,7 @@ const MenuItem: React.FC<MenuItemProps> = ({ path, title, icon }) => {
       className={`p-4 cursor-pointer flex flex-row items-center justify-center lg:justify-start gap-3 transition-all duration-400 ease-in-out transform hover:bg-slate-700 ${
         isActive && "bg-slate-800"
       }`}
-      onClick={() => router.push(path)}
+      onClick={onClick || (() => router.push(path || "/"))}
     >
       {icon}
       <p className="hidden lg:flex">{title}</p>
@@ -38,6 +41,12 @@ const MenuItem: React.FC<MenuItemProps> = ({ path, title, icon }) => {
 };
 
 export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
+  const handleLogout = () => {
+    if (window.confirm("Tem certeza que deseja sair?")) {
+      signOut({ callbackUrl: "/login" });
+    }
+  };
+
   return (
     <div className="flex h-screen">
       <aside className="w-20 lg:w-64 flex flex-col bg-gradient-to-r from-slate-900 to-slate-800 border-r-[1px] border-gray-700 text-white">
@@ -67,6 +76,11 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
             path="/settings"
             title="Configurações"
             icon={<LuSettings size={20} />}
+          />
+          <MenuItem
+            title="Logout"
+            icon={<FiLogOut size={20} />}
+            onClick={handleLogout}
           />
         </ul>
       </aside>
