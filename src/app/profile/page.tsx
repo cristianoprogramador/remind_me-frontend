@@ -1,10 +1,12 @@
 "use client";
 
+import { useSession } from "next-auth/react";
 import React, { useState } from "react";
 
 export default function ProfilePage() {
-  const [name, setName] = useState("Cristiano");
-  const [email] = useState("cristiano@email.com"); // E-mail é fixo, apenas exibido
+  const { data: session } = useSession();
+  const [name, setName] = useState(session?.user?.name!);
+  const [email] = useState(session?.user?.email);
   const [phone, setPhone] = useState("(19) 99252-5256");
   const [notificationsEnabled, setNotificationsEnabled] = useState(false);
   const [emailNotifications, setEmailNotifications] = useState(false);

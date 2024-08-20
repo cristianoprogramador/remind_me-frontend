@@ -1,14 +1,6 @@
 import CategorySelect, { CategoryOption } from "@/components/categorySelect";
 import { useState } from "react";
 
-const users = [
-  { id: "1", nome: "Cristiano" },
-  { id: "2", nome: "Camila" },
-  { id: "3", nome: "Joaquim" },
-  { id: "4", nome: "Caio" },
-  { id: "5", nome: "Luiz" },
-];
-
 const initialCategories = [
   { label: "Trabalho", value: "trabalho" },
   { label: "Pessoal", value: "pessoal" },
@@ -16,18 +8,10 @@ const initialCategories = [
 ];
 
 export function SearchRemind() {
-  const [selectedUserIds, setSelectedUserIds] = useState<string[]>(["1"]);
-  const fixedUserId = "1";
-
   const [categories, setCategories] =
     useState<CategoryOption[]>(initialCategories);
   const [selectedCategory, setSelectedCategory] =
     useState<CategoryOption | null>(null);
-
-  const handleUserChange = (ids: string[]) => {
-    setSelectedUserIds(ids);
-    console.log("Usuários selecionados:", ids);
-  };
 
   const handleCategoryChange = (category: CategoryOption | null) => {
     setSelectedCategory(category);

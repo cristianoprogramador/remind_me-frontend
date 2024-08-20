@@ -9,6 +9,7 @@ import { LuSettings } from "react-icons/lu";
 import { MdManageSearch } from "react-icons/md";
 import { FiLogOut } from "react-icons/fi";
 import { signOut } from "next-auth/react";
+import { FaUserFriends } from "react-icons/fa";
 
 interface MainLayoutProps {
   children: ReactNode;
@@ -71,6 +72,11 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
             path="/profile"
             title="Perfil"
             icon={<CgProfile size={20} />}
+          />
+          <MenuItem
+            path="/friends"
+            title="Amigos"
+            icon={<FaUserFriends size={20} />}
           />
           <MenuItem
             path="/settings"

@@ -23,6 +23,7 @@ export const config = {
     "/profile/:path*",
     "/search/:path*",
     "/home/:path*",
+    "/friends/:path*",
     "/login",
   ],
 };
