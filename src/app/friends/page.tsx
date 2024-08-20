@@ -4,18 +4,33 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { FaUser } from "react-icons/fa";
+import { SearchFriend } from "@/components/searchFriend";
 
-// Tipagem para as solicitações de amizade
-interface FriendRequest {
-  id: string;
+// Tipagem para as solicitações de amizade e amigos
+
+interface Friend {
+  uuid: string;
+  name: string;
+  email: string;
+  profileImageUrl?: string;
+}
+
+interface Friendship {
+  uuid: string;
   user1: {
+    uuid: string;
+    name: string;
+    email: string;
+    profileImageUrl?: string;
+  };
+  user2: {
+    uuid: string;
     name: string;
     email: string;
     profileImageUrl?: string;
   };
 }
 
-// Tipagem para a sessão
 interface UserProps {
   id: string;
   token: string;
@@ -26,7 +41,9 @@ interface UserProps {
 
 export default function FriendsPage() {
   const { data: session } = useSession();
-  const [friendRequests, setFriendRequests] = useState<FriendRequest[]>([]);
+  const [receivedRequests, setReceivedRequests] = useState<Friend[]>([]);
+  const [sentRequests, setSentRequests] = useState<Friend[]>([]);
+  const [friends, setFriends] = useState<Friend[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -49,8 +66,24 @@ export default function FriendsPage() {
           throw new Error("Failed to fetch friend requests");
         }
 
-        const data: FriendRequest[] = await res.json();
-        setFriendRequests(data);
+        const { receivedRequests, sentRequests } = await res.json();
+
+        const mappedReceivedRequests = receivedRequests.map((request: any) => ({
+          uuid: request.uuid,
+          name: request.user1.name,
+          email: request.user1.email,
+          profileImageUrl: request.user1.profileImageUrl,
+        }));
+
+        const mappedSentRequests = sentRequests.map((request: any) => ({
+          uuid: request.uuid,
+          name: request.user2.name,
+          email: request.user2.email,
+          profileImageUrl: request.user2.profileImageUrl,
+        }));
+
+        setReceivedRequests(mappedReceivedRequests);
+        setSentRequests(mappedSentRequests);
       } catch (error) {
         console.error(error);
       } finally {
@@ -58,6 +91,43 @@ export default function FriendsPage() {
       }
     }
 
+    async function fetchFriends() {
+      if (!session) return;
+
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/friendship/friends`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${(session?.user as UserProps)?.token}`,
+            },
+          }
+        );
+
+        if (!res.ok) {
+          throw new Error("Failed to fetch friends");
+        }
+
+        const data: Friendship[] = await res.json();
+
+        // Filtra e mapeia os amigos, excluindo o usuário logado
+        const friendsList = data.map((friendship) => {
+          return friendship.user1.uuid === (session?.user as UserProps).id
+            ? friendship.user2
+            : friendship.user1;
+        });
+
+        setFriends(friendsList);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchFriends();
     fetchFriendRequests();
   }, [session]);
 
@@ -69,30 +139,20 @@ export default function FriendsPage() {
     <main className="flex flex-col justify-start items-center p-8 w-full">
       <div className="max-w-[720px] w-[80%] flex flex-col justify-center items-center">
         <h1 className="text-2xl font-bold mb-6 text-white">Amigos</h1>
-        <div className="border rounded-md w-full flex flex-col mb-7">
-          <div className="flex flex-row items-center justify-center">
-            <input
-              type="text"
-              className="w-full bg-transparent pl-5 py-4 text-white outline-none"
-              placeholder="Digite o e-mail do amigo..."
-            />
-            <button className="h-10 w-32 bg-gray-200 text-slate-800 transition-all duration-400 ease-in-out transform hover:bg-blue-600 hover:text-white rounded-md mr-4">
-              Buscar
-            </button>
-          </div>
-        </div>
 
-        {/* Lista de Solicitações de Amizade */}
-        <div className="w-full flex flex-col gap-4">
-          {friendRequests.map((request) => (
+        <SearchFriend />
+
+        {/* Lista de Amigos */}
+        <div className="w-full flex flex-col gap-4 mb-6">
+          {friends.map((friend) => (
             <div
-              key={request.id}
-              className="border rounded-md p-4 flex justify-between items-center bg-white"
+              key={friend.uuid}
+              className="border rounded-md p-4 flex items-center bg-white"
             >
               <div className="flex items-center gap-4">
-                {request.user1.profileImageUrl ? (
+                {friend.profileImageUrl ? (
                   <Image
-                    src={request.user1.profileImageUrl}
+                    src={friend.profileImageUrl}
                     alt="Profile"
                     width={48}
                     height={48}
@@ -102,18 +162,92 @@ export default function FriendsPage() {
                   <FaUser className="w-12 h-12 text-gray-400" />
                 )}
                 <div>
-                  <h2 className="text-lg font-semibold">
-                    {request.user1.name}
-                  </h2>
-                  <p className="text-gray-600">{request.user1.email}</p>
+                  <h2 className="text-lg font-semibold">{friend.name}</h2>
+                  <p className="text-gray-600">{friend.email}</p>
                 </div>
               </div>
-              <button
-                className="h-10 w-32 bg-green-500 text-white rounded-md hover:bg-green-600"
-                onClick={() => handleAccept(request.id)}
+            </div>
+          ))}
+        </div>
+
+        {/* Solicitações de Amizade Recebidas */}
+
+        <div className="w-full flex flex-col gap-4 mb-6">
+          {receivedRequests.map((request) => (
+            <div key={request.uuid}>
+              <h2 className="text-xl font-bold mb-4 text-white">
+                Solicitações de Amizade Recebidas
+              </h2>
+              <div
+                className="border rounded-md p-4 flex justify-between items-center bg-white"
               >
-                Aceitar
-              </button>
+                <div className="flex items-center gap-4">
+                  {request.profileImageUrl ? (
+                    <Image
+                      src={request.profileImageUrl}
+                      alt="Profile"
+                      width={48}
+                      height={48}
+                      className="w-12 h-12 rounded-full"
+                    />
+                  ) : (
+                    <FaUser className="w-12 h-12 text-gray-400" />
+                  )}
+                  <div>
+                    <h2 className="text-lg font-semibold">{request.name}</h2>
+                    <p className="text-gray-600">{request.email}</p>
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  <button
+                    className="h-10 w-32 bg-green-500 text-white rounded-md hover:bg-green-600"
+                    onClick={() => handleResponse(request.uuid, true)}
+                  >
+                    Aceitar
+                  </button>
+                  <button
+                    className="h-10 w-32 bg-red-500 text-white rounded-md hover:bg-red-600"
+                    onClick={() => handleResponse(request.uuid, false)}
+                  >
+                    Rejeitar
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Solicitações de Amizade Enviadas */}
+
+        <div className="w-full flex flex-col gap-4 mb-6">
+          {sentRequests.map((request) => (
+            <div key={request.uuid}>
+              <h2 className="text-xl font-bold mb-4 text-white">
+                Solicitações de Amizade Enviadas
+              </h2>
+
+              <div className="border rounded-md p-4 flex justify-between items-center bg-white">
+                <div className="flex items-center gap-4">
+                  {request.profileImageUrl ? (
+                    <Image
+                      src={request.profileImageUrl}
+                      alt="Profile"
+                      width={48}
+                      height={48}
+                      className="w-12 h-12 rounded-full"
+                    />
+                  ) : (
+                    <FaUser className="w-12 h-12 text-gray-400" />
+                  )}
+                  <div>
+                    <h2 className="text-lg font-semibold">{request.name}</h2>
+                    <p className="text-gray-600">{request.email}</p>
+                  </div>
+                </div>
+                <div className="text-sm text-gray-500">
+                  Aguardando resposta...
+                </div>
+              </div>
             </div>
           ))}
         </div>
@@ -121,7 +255,7 @@ export default function FriendsPage() {
     </main>
   );
 
-  async function handleAccept(requestId: string) {
+  async function handleResponse(requestId: string, accept: boolean) {
     try {
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/friendship/respond/${requestId}`,
@@ -131,16 +265,23 @@ export default function FriendsPage() {
             "Content-Type": "application/json",
             Authorization: `Bearer ${(session?.user as UserProps)?.token}`,
           },
-          body: JSON.stringify({ accept: true }),
+          body: JSON.stringify({ accept }),
         }
       );
 
       if (res.ok) {
-        setFriendRequests((prevRequests) =>
-          prevRequests.filter((request) => request.id !== requestId)
+        const acceptedRequest = receivedRequests.find(
+          (request) => request.uuid === requestId
+        );
+        if (acceptedRequest) {
+          setFriends((prevFriends) => [...prevFriends, acceptedRequest]);
+        }
+
+        setReceivedRequests((prevRequests) =>
+          prevRequests.filter((request) => request.uuid !== requestId)
         );
       } else {
-        console.error("Failed to accept friend request");
+        console.error("Failed to respond to friend request");
       }
     } catch (error) {
       console.error(error);
