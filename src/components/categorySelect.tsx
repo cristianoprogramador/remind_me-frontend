@@ -1,32 +1,64 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import CreatableSelect from "react-select/creatable";
+import { useSession } from "next-auth/react";
 
 export interface CategoryOption {
   label: string;
   value: string;
 }
 
+interface UserProps {
+  id: string;
+  token: string;
+  name?: string | null;
+  email?: string | null;
+  image?: string | null;
+}
+
 interface CategorySelectProps {
-  categories: CategoryOption[];
   selectedCategory: CategoryOption | null;
   onChange: (category: CategoryOption | null) => void;
-  onAddCategory: (newCategory: string) => void;
 }
 
 const CategorySelect: React.FC<CategorySelectProps> = ({
-  categories,
   selectedCategory,
   onChange,
-  onAddCategory,
 }) => {
+  const { data: session } = useSession();
+  const [categories, setCategories] = useState<CategoryOption[]>([]);
+  const [loading, setLoading] = useState(true);
+
   const handleChange = (newValue: CategoryOption | null) => {
     onChange(newValue);
   };
 
-  const handleCreate = (inputValue: string) => {
+  const handleCreate = async (inputValue: string) => {
     const newCategory = { label: inputValue, value: inputValue.toLowerCase() };
-    onAddCategory(inputValue);
-    handleChange(newCategory);
+
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/category`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${(session?.user as UserProps)?.token}`,
+        },
+        body: JSON.stringify({ name: inputValue }),
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to create category");
+      }
+
+      const newCategory = {
+        label: inputValue,
+        value: (await res.json()).uuid,
+      };
+
+      setCategories((prevCategories) => [...prevCategories, newCategory]);
+      handleChange(newCategory);
+    } catch (error) {
+      console.error("Error creating category:", error);
+    }
   };
 
   const customStyles = {
@@ -62,10 +94,47 @@ const CategorySelect: React.FC<CategorySelectProps> = ({
 
   const formatCreateLabel = (inputValue: string) => `Criar "${inputValue}"`;
 
+  useEffect(() => {
+    async function fetchCategories() {
+      setLoading(true);
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/category`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${(session?.user as UserProps)?.token}`,
+          },
+        });
+
+        if (!res.ok) {
+          throw new Error("Failed to fetch categories");
+        }
+
+        const data = await res.json();
+
+        // Mapeia os dados para o formato esperado
+        const mappedCategories = data.map((category: any) => ({
+          label: category.name,
+          value: category.uuid,
+        }));
+
+        setCategories(mappedCategories);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    if (session) {
+      fetchCategories();
+    }
+  }, [session]);
 
   return (
     <CreatableSelect
       isClearable
+      isLoading={loading}
       options={categories}
       value={selectedCategory}
       styles={customStyles}
@@ -73,6 +142,9 @@ const CategorySelect: React.FC<CategorySelectProps> = ({
       onCreateOption={handleCreate}
       placeholder="Categoria"
       formatCreateLabel={formatCreateLabel}
+      noOptionsMessage={() =>
+        loading ? "Carregando categorias..." : "Nenhuma categoria encontrada"
+      }
     />
   );
 };

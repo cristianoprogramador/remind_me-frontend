@@ -1,27 +1,107 @@
-import React from "react";
+import { useSession } from "next-auth/react";
+import React, { useEffect, useState } from "react";
 import Select, { MultiValue, components } from "react-select";
 
-interface User {
+interface Friend {
+  uuid: string;
+  name: string;
+  email: string;
+  profileImageUrl?: string;
+}
+
+interface UserProps {
   id: string;
-  nome: string;
+  token: string;
+  name?: string | null;
+  email?: string | null;
+  image?: string | null;
 }
 
 interface UserSelectProps {
-  users: User[];
   selectedUserIds: string[];
   onChange: (ids: string[]) => void;
   fixedUserId: string;
 }
 
 const UserSelect: React.FC<UserSelectProps> = ({
-  users,
   selectedUserIds,
   onChange,
   fixedUserId,
 }) => {
-  const options = users.map((user) => ({
-    value: user.id,
-    label: user.nome,
+  const { data: session } = useSession();
+  const [friends, setFriends] = useState<Friend[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchFriends() {
+      if (!session) return;
+
+      setLoading(true);
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/friendship/friends`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${(session?.user as UserProps)?.token}`,
+            },
+          }
+        );
+
+        if (!res.ok) {
+          throw new Error("Failed to fetch friends");
+        }
+
+        const data = await res.json();
+
+        const mappedFriends = data.map((friendship: any) => {
+          return {
+            uuid:
+              friendship.user1Id === (session?.user as UserProps)?.id
+                ? friendship.user2.uuid
+                : friendship.user1.uuid,
+            name:
+              friendship.user1Id === (session?.user as UserProps)?.id
+                ? friendship.user2.name
+                : friendship.user1.name,
+            email:
+              friendship.user1Id === (session?.user as UserProps)?.id
+                ? friendship.user2.email
+                : friendship.user1.email,
+            profileImageUrl:
+              friendship.user1Id === (session?.user as UserProps)?.id
+                ? friendship.user2.profileImageUrl
+                : friendship.user1.profileImageUrl,
+          };
+        });
+
+        // Adiciona o usuário logado à lista de amigos
+        const loggedInUser = {
+          uuid: (session?.user as UserProps)?.id,
+          name: (session?.user as UserProps)?.name || "",
+          email: (session?.user as UserProps)?.email || "",
+          profileImageUrl: (session?.user as UserProps)?.image || "",
+        };
+
+        setFriends([loggedInUser, ...mappedFriends]);
+
+        // Garante que o usuário logado está sempre selecionado
+        onChange([loggedInUser.uuid, ...selectedUserIds]);
+      } catch (error) {
+        console.error("Error fetching friends:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchFriends();
+  }, [session]);
+
+  // Mapeia os amigos para o formato esperado pelo react-select
+  const options = friends.map((friend) => ({
+    value: friend.uuid,
+    label: friend.name,
   }));
 
   const customStyles = {
@@ -48,7 +128,7 @@ const UserSelect: React.FC<UserSelectProps> = ({
       ...provided,
       backgroundColor: "rgba(75, 85, 99, 1)",
       color: "white",
-      maxWidth: "100px", // Limita o tamanho do item selecionado
+      maxWidth: "100px",
       overflow: "hidden",
       textOverflow: "ellipsis",
       whiteSpace: "nowrap",
@@ -59,7 +139,7 @@ const UserSelect: React.FC<UserSelectProps> = ({
       overflow: "hidden",
       textOverflow: "ellipsis",
       whiteSpace: "nowrap",
-      maxWidth: "80px", // Limita o tamanho do texto
+      maxWidth: "80px",
     }),
     multiValueRemove: (provided: any) => ({
       ...provided,
@@ -72,6 +152,7 @@ const UserSelect: React.FC<UserSelectProps> = ({
   ) => {
     const ids = selectedOptions.map((option) => option.value);
 
+    // Garante que o usuário logado está sempre selecionado
     if (!ids.includes(fixedUserId)) {
       ids.push(fixedUserId);
     }
@@ -110,8 +191,9 @@ const UserSelect: React.FC<UserSelectProps> = ({
       styles={customStyles}
       isClearable={false}
       isMulti={true}
-      placeholder="Selecione usuários"
+      placeholder={loading ? "Carregando amigos..." : "Selecione usuários"}
       components={{ MultiValue }}
+      isLoading={loading}
     />
   );
 };
