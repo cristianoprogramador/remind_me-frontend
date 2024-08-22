@@ -1,5 +1,6 @@
-import CategorySelect, { CategoryOption } from "@/components/categorySelect";
+import CategorySelect from "@/components/categorySelect";
 import UserSelect from "@/components/userSelect";
+import { CategoryOption } from "@/types";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { CiImageOn } from "react-icons/ci";
@@ -13,10 +14,34 @@ interface UserProps {
   token: string;
 }
 
-export function CreateRemind() {
+interface Annotation {
+  uuid: string;
+  createdAt: string;
+  remindAt: string;
+  content: string;
+  category?: {
+    uuid: string;
+    name: string;
+  };
+  author: {
+    uuid: string;
+    name: string;
+  };
+  relatedUser?: {
+    uuid: string;
+    name: string;
+  };
+}
+
+interface CreateRemindProps {
+  onCreate: (newAnnotation: Annotation) => void;
+}
+
+export function CreateRemind({ onCreate }: CreateRemindProps) {
   const { data: session } = useSession();
   const [content, setContent] = useState<string>("");
   const [remindAt, setRemindAt] = useState<string>("");
+
   const [selectedUserIds, setSelectedUserIds] = useState<string[]>([]);
   const fixedUserId = (session?.user as UserProps)?.id;
   const [selectedCategory, setSelectedCategory] =
@@ -38,8 +63,6 @@ export function CreateRemind() {
 
     const remindAtUTC = new Date(remindAt).toISOString();
 
-    console.log(remindAtUTC);
-
     try {
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/annotations`,
@@ -53,10 +76,7 @@ export function CreateRemind() {
             content,
             remindAt: remindAtUTC,
             categoryId: selectedCategory?.value,
-            relatedUserId:
-              selectedUserIds[0] !== fixedUserId
-                ? selectedUserIds[0]
-                : undefined,
+            relatedUserIds: selectedUserIds.filter((id) => id !== fixedUserId),
           }),
         }
       );
@@ -65,14 +85,14 @@ export function CreateRemind() {
         throw new Error("Falha ao criar a anotação");
       }
 
-      alert("Anotação criada com sucesso!");
+      const newAnnotation = await res.json();
 
-      setContent(""); // Limpa o campo de conteúdo
-      setRemindAt(""); // Limpa o campo de data/hora
-      setSelectedCategory(null); // Desseleciona a categoria
-      setSelectedUserIds([fixedUserId]); // Mantém apenas o usuário logado selecionado
+      onCreate(newAnnotation);
 
-      // Aqui você pode adicionar lógica para limpar os campos ou redirecionar o usuário, etc.
+      setContent("");
+      setRemindAt("");
+      setSelectedCategory(null);
+      setSelectedUserIds([fixedUserId]);
     } catch (error) {
       console.error("Erro ao criar anotação:", error);
       alert("Erro ao criar anotação");
@@ -100,11 +120,12 @@ export function CreateRemind() {
               className="bg-transparent text-white pl-10 w-44 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               value={remindAt}
               onChange={(e) => {
-                const roundedValue =
-                  e.target.value.split(":").slice(0, 2).join(":") + ":00";
+                const [datePart, timePart] = e.target.value.split("T");
+                let [hours, minutes] = timePart.split(":");
+                minutes = "00";
+                const roundedValue = `${datePart}T${hours}:${minutes}`;
                 setRemindAt(roundedValue);
               }}
-              step="3600"
             />
             <FiCalendar
               className="absolute left-3 text-white pointer-events-none"

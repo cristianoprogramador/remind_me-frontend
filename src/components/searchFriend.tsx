@@ -2,22 +2,8 @@ import { useState } from "react";
 import Image from "next/image";
 import { FaUser } from "react-icons/fa";
 import { useSession } from "next-auth/react";
+import { SearchResult, UserProps } from "@/types";
 
-interface UserProps {
-  id: string;
-  token: string;
-  name?: string | null;
-  email?: string | null;
-  image?: string | null;
-}
-
-interface SearchResult {
-  uuid: string;
-  name: string;
-  email: string;
-  profileImageUrl?: string;
-  status: string | null;
-}
 
 export function SearchFriend() {
   const { data: session } = useSession();

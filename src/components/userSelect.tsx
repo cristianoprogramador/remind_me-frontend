@@ -1,21 +1,7 @@
+import { Friend, UserProps } from "@/types";
 import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
 import Select, { MultiValue, components } from "react-select";
-
-interface Friend {
-  uuid: string;
-  name: string;
-  email: string;
-  profileImageUrl?: string;
-}
-
-interface UserProps {
-  id: string;
-  token: string;
-  name?: string | null;
-  email?: string | null;
-  image?: string | null;
-}
 
 interface UserSelectProps {
   selectedUserIds: string[];

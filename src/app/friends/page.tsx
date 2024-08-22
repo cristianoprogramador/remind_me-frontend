@@ -5,39 +5,7 @@ import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { FaUser } from "react-icons/fa";
 import { SearchFriend } from "@/components/searchFriend";
-
-// Tipagem para as solicitações de amizade e amigos
-
-interface Friend {
-  uuid: string;
-  name: string;
-  email: string;
-  profileImageUrl?: string;
-}
-
-interface Friendship {
-  uuid: string;
-  user1: {
-    uuid: string;
-    name: string;
-    email: string;
-    profileImageUrl?: string;
-  };
-  user2: {
-    uuid: string;
-    name: string;
-    email: string;
-    profileImageUrl?: string;
-  };
-}
-
-interface UserProps {
-  id: string;
-  token: string;
-  name?: string | null;
-  email?: string | null;
-  image?: string | null;
-}
+import { Friend, Friendship, UserProps } from "@/types";
 
 export default function FriendsPage() {
   const { data: session } = useSession();
@@ -178,9 +146,7 @@ export default function FriendsPage() {
               <h2 className="text-xl font-bold mb-4 text-white">
                 Solicitações de Amizade Recebidas
               </h2>
-              <div
-                className="border rounded-md p-4 flex justify-between items-center bg-white"
-              >
+              <div className="border rounded-md p-4 flex justify-between items-center bg-white">
                 <div className="flex items-center gap-4">
                   {request.profileImageUrl ? (
                     <Image

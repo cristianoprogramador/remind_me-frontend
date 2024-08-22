@@ -1,19 +1,8 @@
 import React, { useEffect, useState } from "react";
 import CreatableSelect from "react-select/creatable";
 import { useSession } from "next-auth/react";
+import { CategoryOption, UserProps } from "@/types";
 
-export interface CategoryOption {
-  label: string;
-  value: string;
-}
-
-interface UserProps {
-  id: string;
-  token: string;
-  name?: string | null;
-  email?: string | null;
-  image?: string | null;
-}
 
 interface CategorySelectProps {
   selectedCategory: CategoryOption | null;
