@@ -2,7 +2,7 @@
 
 "use client";
 
-import RemindList from "@/components/Remind/remind";
+import RemindList from "@/components/Remind/remindList";
 import { SearchRemind } from "@/components/Remind/searchRemind";
 import { Annotation, UserProps } from "@/types";
 import { annotations } from "@/utils/mockData";

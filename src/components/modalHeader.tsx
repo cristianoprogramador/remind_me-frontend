@@ -1,29 +1,4 @@
-const CloseButton = () => {
-  return (
-    <svg
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M18 6L6 18"
-        stroke="black"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M6 6L18 18"
-        stroke="black"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-};
+import { IoMdCloseCircleOutline } from "react-icons/io";
 
 const ModalHeader = ({
   onClose,
@@ -34,12 +9,13 @@ const ModalHeader = ({
 }) => {
   return (
     <div className="relative flex items-center justify-center p-3">
-      <button
-        className="absolute top-0 right-0 border border-black rounded-md"
-        onClick={onClose}
-      >
-        <CloseButton />
+      <button className="absolute top-0 right-0 rounded-md" onClick={onClose}>
+        <IoMdCloseCircleOutline
+          className="text-gray-300 transition-all duration-400 ease-in-out transform hover:text-red-500"
+          size={30}
+        />
       </button>
+
       <span className="font-semibold text-base">{title}</span>
     </div>
   );

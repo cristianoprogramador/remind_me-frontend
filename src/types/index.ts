@@ -2,6 +2,7 @@ export interface Annotation {
   uuid: string;
   createdAt: string;
   remindAt: string;
+  updatedAt: string;
   content: string;
   category?: {
     uuid: string;

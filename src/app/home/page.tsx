@@ -4,82 +4,47 @@
 
 import { useEffect, useState } from "react";
 import { CreateRemind } from "@/components/Remind/createRemind";
-import RemindList from "@/components/Remind/remind";
 import { useSession } from "next-auth/react";
 import { Annotation, UserProps } from "@/types";
+import RemindList from "@/components/Remind/remindList";
 
 export default function HomePage() {
   const { data: session } = useSession();
   const [annotations, setAnnotations] = useState<Annotation[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    async function fetchAnnotations() {
-      if (!session) return;
+  const fetchAnnotations = async () => {
+    if (!session) return;
 
-      setLoading(true);
-      try {
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/annotations/user?onlyFuture=true`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${(session?.user as UserProps)?.token}`,
-            },
-          }
-        );
-
-        if (!res.ok) {
-          throw new Error("Failed to fetch annotations");
-        }
-
-        const data: Annotation[] = await res.json();
-        setAnnotations(data);
-      } catch (error) {
-        console.error("Error fetching annotations:", error);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    fetchAnnotations();
-  }, [session]);
-
-  const handleUpdateRemindAt = async (
-    annotationId: string,
-    newRemindAt: string
-  ) => {
+    setLoading(true);
     try {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/annotations/${annotationId}/remindAt`,
+        `${process.env.NEXT_PUBLIC_API_URL}/annotations/user?onlyFuture=true`,
         {
-          method: "PATCH",
+          method: "GET",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${(session?.user as UserProps)?.token}`,
-          },
-          body: JSON.stringify({
-            remindAt: new Date(newRemindAt).toISOString(),
-          }),
+          }
         }
       );
 
       if (!res.ok) {
-        throw new Error("Failed to update remindAt");
+        throw new Error("Failed to fetch annotations");
       }
 
-      setAnnotations((prevAnnotations) =>
-        prevAnnotations.map((annotation) =>
-          annotation.uuid === annotationId
-            ? { ...annotation, remindAt: newRemindAt }
-            : annotation
-        )
-      );
+      const data: Annotation[] = await res.json();
+      setAnnotations(data);
     } catch (error) {
-      console.error("Error updating remindAt:", error);
+      console.error("Error fetching annotations:", error);
+    } finally {
+      setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchAnnotations();
+  }, [session]);
 
   const addAnnotation = (newAnnotation: Annotation) => {
     setAnnotations((prevAnnotations) => [newAnnotation, ...prevAnnotations]);
@@ -97,7 +62,7 @@ export default function HomePage() {
         ) : (
           <RemindList
             annotations={annotations}
-            onUpdateRemindAt={handleUpdateRemindAt}
+            fetchAnnotations={fetchAnnotations}
           />
         )}
       </div>

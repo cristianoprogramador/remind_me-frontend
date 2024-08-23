@@ -1,37 +1,10 @@
 import CategorySelect from "@/components/categorySelect";
 import UserSelect from "@/components/userSelect";
-import { CategoryOption } from "@/types";
+import { Annotation, CategoryOption, UserProps } from "@/types";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { CiImageOn } from "react-icons/ci";
 import { FiCalendar } from "react-icons/fi";
-
-interface UserProps {
-  id: string;
-  name?: string | null;
-  email?: string | null;
-  image?: string | null;
-  token: string;
-}
-
-interface Annotation {
-  uuid: string;
-  createdAt: string;
-  remindAt: string;
-  content: string;
-  category?: {
-    uuid: string;
-    name: string;
-  };
-  author: {
-    uuid: string;
-    name: string;
-  };
-  relatedUser?: {
-    uuid: string;
-    name: string;
-  };
-}
 
 interface CreateRemindProps {
   onCreate: (newAnnotation: Annotation) => void;

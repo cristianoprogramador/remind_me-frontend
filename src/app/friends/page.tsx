@@ -99,6 +99,32 @@ export default function FriendsPage() {
     fetchFriendRequests();
   }, [session]);
 
+  const handleUnfriend = async (friendId: string) => {
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/friendship/${friendId}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${(session?.user as UserProps)?.token}`,
+          },
+        }
+      );
+
+      if (!res.ok) {
+        throw new Error("Failed to unfriend");
+      }
+
+      alert("Amizade desfeita com sucesso!");
+
+      setFriends((prevFriends) =>
+        prevFriends.filter((friend) => friend.uuid !== friendId)
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -115,9 +141,9 @@ export default function FriendsPage() {
           {friends.map((friend) => (
             <div
               key={friend.uuid}
-              className="border rounded-md p-4 flex items-center bg-white"
+              className="border rounded-md flex-row justify-between p-4 flex items-center bg-white"
             >
-              <div className="flex items-center gap-4">
+              <div className="flex flex-row items-center gap-4">
                 {friend.profileImageUrl ? (
                   <Image
                     src={friend.profileImageUrl}
@@ -133,6 +159,14 @@ export default function FriendsPage() {
                   <h2 className="text-lg font-semibold">{friend.name}</h2>
                   <p className="text-gray-600">{friend.email}</p>
                 </div>
+              </div>
+              <div>
+                <button
+                  className="h-10 px-4 bg-gray-200 text-slate-800 transition-all duration-400 ease-in-out transform hover:bg-red-600 hover:text-white rounded-md text-sm"
+                  onClick={() => handleUnfriend(friend.uuid)}
+                >
+                  Excluir
+                </button>
               </div>
             </div>
           ))}
