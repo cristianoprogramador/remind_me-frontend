@@ -44,16 +44,19 @@ export const authOptions: NextAuthOptions = {
         try {
           const { email, password } = credentials;
 
-          const res = await fetch(`${process.env.NEXTAUTH_URL_INTERNAL}/auth/login`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              email,
-              password,
-            }),
-          });
+          const res = await fetch(
+            `${process.env.NEXTAUTH_URL_INTERNAL}/auth/login`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                email,
+                password,
+              }),
+            }
+          );
 
           if (!res.ok) {
             throw new Error("Erro ao autenticar o usuário");
@@ -79,12 +82,14 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async jwt({ token, account, user }) {
+    async jwt({ token, session, user, trigger }) {
       if (user) {
-        // Quando um usuário faz login, 'user.id' é o UUID do banco de dados
+        token.name = user.name;
+        token.email = user.email;
         token.sub = user.id;
+      } else if (trigger === "update" && session) {
+        return { ...token, ...session?.user };
       } else if (token.sub && !token.accessToken) {
-        // Se o token já foi criado e estamos renovando, continue usando o sub existente
         token.accessToken = jwt.sign(
           { sub: token.sub },
           process.env.JWT_SECRET as string
@@ -97,28 +102,30 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         user.id = token?.sub || "";
         user.token = (token?.accessToken as string) || "";
+        user.name = token.name || "";
       }
       return session;
     },
     async signIn({ user, account }) {
-      // Faz a requisição para o backend para verificar se o usuário já existe
-      const res = await fetch(`${process.env.NEXTAUTH_URL_INTERNAL}/auth/check-user`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email: user.email }),
-      });
+      const res = await fetch(
+        `${process.env.NEXTAUTH_URL_INTERNAL}/auth/check-user`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email: user.email }),
+        }
+      );
 
       const existingUser = await res.json();
 
       if (existingUser && existingUser.id) {
-        // Se o usuário já existe, define 'user.id' como o UUID do banco de dados
         user.id = existingUser.id;
+        user.name = existingUser.name;
         return true;
       }
 
-      // Se o usuário não existir, cria um novo e atribui o UUID ao 'user.id'
       const resCreate = await fetch(
         `${process.env.NEXTAUTH_URL_INTERNAL}/auth/register`,
         {

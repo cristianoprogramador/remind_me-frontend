@@ -1,27 +1,178 @@
 "use client";
 
+import { ToolTip } from "@/components/tooltip";
+import { UserProps } from "@/types";
 import { useSession } from "next-auth/react";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { IoIosInformationCircleOutline } from "react-icons/io";
 
 export default function ProfilePage() {
-  const { data: session } = useSession();
+  const { data: session, update } = useSession();
+  const [weeklySummary, setWeeklySummary] = useState(false);
+  const [originalWeeklySummary, setOriginalWeeklySummary] = useState(false);
   const [name, setName] = useState(session?.user?.name!);
+  const [originalName, setOriginalName] = useState(session?.user?.name!);
   const [email] = useState(session?.user?.email);
-  const [phone, setPhone] = useState("(19) 99252-5256");
+  const [phone, setPhone] = useState("");
+  const [originalPhone, setOriginalPhone] = useState("");
   const [notificationsEnabled, setNotificationsEnabled] = useState(false);
+  const [originalNotificationsEnabled, setOriginalNotificationsEnabled] =
+    useState(false);
   const [emailNotifications, setEmailNotifications] = useState(false);
+  const [originalEmailNotifications, setOriginalEmailNotifications] =
+    useState(false);
   const [phoneNotifications, setPhoneNotifications] = useState(false);
+  const [originalPhoneNotifications, setOriginalPhoneNotifications] =
+    useState(false);
+  const [notificationExists, setNotificationExists] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  const handleUpdateProfile = (e: React.FormEvent) => {
+  const handleUpdateProfile = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Perfil atualizado:", {
-      name,
-      phone,
-      notificationsEnabled,
-      emailNotifications,
-      phoneNotifications,
-    });
+
+    // Verifique se os valores foram alterados antes de fazer a chamada de API
+    const hasNameChanged = name !== originalName;
+    const hasPhoneChanged = phone !== originalPhone;
+    const hasEmailNotificationsChanged =
+      emailNotifications !== originalEmailNotifications;
+    const hasPhoneNotificationsChanged =
+      phoneNotifications !== originalPhoneNotifications;
+    const hasNotificationsEnabledChanged =
+      notificationsEnabled !== originalNotificationsEnabled;
+    const hasWeeklySummaryChanged = weeklySummary !== originalWeeklySummary;
+
+    // Se nenhuma alteração foi feita, não faça a chamada de API
+    if (
+      !hasNameChanged &&
+      !hasPhoneChanged &&
+      !hasEmailNotificationsChanged &&
+      !hasPhoneNotificationsChanged &&
+      !hasNotificationsEnabledChanged &&
+      !hasWeeklySummaryChanged
+    ) {
+      alert("Nenhuma alteração detectada.");
+      return;
+    }
+
+    try {
+      // Atualiza o nome do usuário se foi alterado
+      if (hasNameChanged) {
+        const resName = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/user/name`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${(session?.user as UserProps)?.token}`,
+            },
+            body: JSON.stringify({ name }),
+          }
+        );
+
+        if (!resName.ok) {
+          throw new Error("Failed to update user name");
+        }
+
+        await update({
+          user: {
+            ...session?.user,
+            name: name,
+          },
+        });
+
+        alert("Nome atualizado com sucesso!");
+      }
+
+      // Atualiza ou cria as configurações de notificação se alguma delas foi alterada
+      if (
+        hasPhoneChanged ||
+        hasEmailNotificationsChanged ||
+        hasPhoneNotificationsChanged ||
+        hasNotificationsEnabledChanged ||
+        hasWeeklySummaryChanged
+      ) {
+        const notificationEndpoint = notificationExists
+          ? `${process.env.NEXT_PUBLIC_API_URL}/notifications`
+          : `${process.env.NEXT_PUBLIC_API_URL}/notifications`;
+
+        const method = notificationExists ? "PUT" : "POST";
+
+        const resNotification = await fetch(notificationEndpoint, {
+          method,
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${(session?.user as UserProps)?.token}`,
+          },
+          body: JSON.stringify({
+            emailNotify: emailNotifications,
+            phoneNotify: phoneNotifications,
+            phoneNumber: phone,
+            weeklySummary: emailNotifications ? weeklySummary : false,
+          }),
+        });
+
+        if (!resNotification.ok) {
+          throw new Error("Failed to update notification settings");
+        }
+
+        alert("Configurações de notificação atualizadas com sucesso!");
+      }
+    } catch (error) {
+      console.error("Erro ao atualizar perfil:", error);
+      alert("Erro ao atualizar perfil");
+    }
   };
+
+  useEffect(() => {
+    // Buscar configurações de notificação ao montar o componente
+    const fetchNotificationSettings = async () => {
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/notifications`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${(session?.user as UserProps)?.token}`,
+            },
+          }
+        );
+
+        if (res.ok) {
+          const data = await res.json();
+          setNotificationsEnabled(data.emailNotify || data.phoneNotify);
+          setEmailNotifications(data.emailNotify);
+          setPhoneNotifications(data.phoneNotify);
+          setWeeklySummary(data.weeklySummary || false); // Adicionando o valor de weeklySummary
+          setPhone(data.phoneNumber || "");
+
+          // Definindo os estados originais para comparação posterior
+          setOriginalNotificationsEnabled(data.emailNotify || data.phoneNotify);
+          setOriginalEmailNotifications(data.emailNotify);
+          setOriginalPhoneNotifications(data.phoneNotify);
+          setOriginalWeeklySummary(data.weeklySummary || false); // Definindo o estado original
+          setOriginalPhone(data.phoneNumber || "");
+
+          setNotificationExists(true); // Indica que as configurações de notificação existem
+        } else {
+          setNotificationExists(false); // Indica que as configurações de notificação não existem
+        }
+      } catch (error) {
+        console.error("Erro ao buscar configurações de notificação:", error);
+        setNotificationExists(false);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (session) {
+      fetchNotificationSettings();
+    }
+  }, [session]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="flex flex-col justify-center gap-10 items-center h-full">
@@ -32,20 +183,20 @@ export default function ProfilePage() {
           </div>
           <form onSubmit={handleUpdateProfile}>
             <div className="flex flex-col gap-4 py-5">
-              <div className="flex flex-col w-full border border-gray-500 rounded-lg p-4">
+              <div className="flex flex-row justify-between items-center w-full border border-gray-500 rounded-lg p-4">
                 <label className="mb-1 text-gray-700">Nome</label>
                 <input
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="bg-transparent outline-none"
+                  className="bg-transparent p-1 border border-gray-500 rounded-lg"
                 />
               </div>
 
               <div className="flex flex-col w-full border border-gray-500 rounded-lg p-4">
                 <label className="mb-1 text-gray-700">E-mail</label>
                 <div className="text-gray-700">{email}</div>
-                <div className="flex items-center mt-2">
+                <div className="flex justify-between items-center mt-2">
                   <label
                     className={`text-sm mr-2 ${
                       notificationsEnabled ? "text-gray-600" : "text-gray-400"
@@ -70,8 +221,9 @@ export default function ProfilePage() {
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   className="bg-transparent outline-none"
+                  disabled={!notificationsEnabled}
                 />
-                <div className="flex items-center mt-2">
+                <div className="flex justify-between items-center mt-2">
                   <label
                     className={`text-sm mr-2 ${
                       notificationsEnabled ? "text-gray-600" : "text-gray-400"
@@ -89,7 +241,7 @@ export default function ProfilePage() {
                 </div>
               </div>
 
-              <div className="flex items-center mt-4">
+              <div className="flex justify-between items-center">
                 <label className="text-sm text-gray-600 mr-2">
                   Ativar Notificações
                 </label>
@@ -100,6 +252,28 @@ export default function ProfilePage() {
                   className="w-5 h-5"
                 />
               </div>
+
+              {emailNotifications && (
+                <div className="flex justify-between items-center">
+                  <div className="flex flex-row items-center gap-2">
+                    <label className="text-gray-700">Resumo Semanal</label>
+                    <ToolTip
+                      content={
+                        "Resumo sobre lembretes da próxima semana por e-mail"
+                      }
+                      className="text-xs"
+                    >
+                      <IoIosInformationCircleOutline size={20} color="red" />
+                    </ToolTip>
+                  </div>
+                  <input
+                    type="checkbox"
+                    checked={weeklySummary}
+                    onChange={(e) => setWeeklySummary(e.target.checked)}
+                    className="w-5 h-5"
+                  />
+                </div>
+              )}
 
               <button
                 type="submit"
