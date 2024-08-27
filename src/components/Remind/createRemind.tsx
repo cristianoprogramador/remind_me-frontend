@@ -85,8 +85,7 @@ export function CreateRemind({ onCreate }: CreateRemindProps) {
       </div>
       <div className="h-[1px] w-full bg-gray-300 mb-4" />
       <div className="flex flex-row text-white justify-between items-center mb-2">
-        <div className="flex flex-row gap-3 ml-4 items-center text-xs">
-          <CiImageOn size={25} className="cursor-pointer hover:text-blue-600" />
+        <div className="md:flex grid grid-cols-1 md:flex-row w-full gap-3 mx-4 items-center text-xs">
           <div className="relative flex items-center">
             <input
               type="datetime-local"
@@ -114,9 +113,17 @@ export function CreateRemind({ onCreate }: CreateRemindProps) {
             selectedCategory={selectedCategory}
             onChange={handleCategoryChange}
           />
+          <div className="md:hidden flex items-center justify-center text-center">
+            <div
+              className="md:hidden flex bg-gray-200 text-slate-800 transition-all duration-400 ease-in-out transform hover:bg-blue-600 hover:text-white rounded-md w-20 h-7 items-center justify-center text-center"
+              onClick={handleCreateAnnotation}
+            >
+              Criar
+            </div>
+          </div>
         </div>
         <button
-          className="px-3 py-1 bg-gray-200 text-slate-800 transition-all duration-400 ease-in-out transform hover:bg-blue-600 hover:text-white rounded-md mr-4"
+          className="md:flex hidden px-3 py-1 bg-gray-200 text-slate-800 transition-all duration-400 ease-in-out transform hover:bg-blue-600 hover:text-white rounded-md mr-4"
           onClick={handleCreateAnnotation}
         >
           Criar

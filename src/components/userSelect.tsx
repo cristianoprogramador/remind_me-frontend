@@ -114,7 +114,6 @@ const UserSelect: React.FC<UserSelectProps> = ({
       ...provided,
       backgroundColor: "rgba(75, 85, 99, 1)",
       color: "white",
-      maxWidth: "100px",
       overflow: "hidden",
       textOverflow: "ellipsis",
       whiteSpace: "nowrap",
@@ -125,7 +124,6 @@ const UserSelect: React.FC<UserSelectProps> = ({
       overflow: "hidden",
       textOverflow: "ellipsis",
       whiteSpace: "nowrap",
-      maxWidth: "80px",
     }),
     multiValueRemove: (provided: any) => ({
       ...provided,
