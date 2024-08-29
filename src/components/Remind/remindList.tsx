@@ -77,7 +77,7 @@ const RemindList: React.FC<AnnotationListProps> = ({
           key={annotation.uuid}
           className="bg-white p-4 rounded-md shadow-md"
         >
-          <div className="mb-4 text-sm text-gray-500 flex flex-row justify-between">
+          <div className="mb-4 text-sm text-gray-500 flex flex-col md:gap-0 gap-1 md:flex-row justify-between">
             <div className="flex flex-col gap-1">
               <span className="text-xs">
                 Criado em:{" "}

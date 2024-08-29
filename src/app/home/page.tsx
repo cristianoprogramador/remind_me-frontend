@@ -58,7 +58,7 @@ export default function HomePage() {
   };
 
   return (
-    <main className="flex flex-col justify-start items-center p-8 w-full">
+    <main className="flex flex-col justify-start items-center pt-8 w-full">
       <div className="max-w-[720px] w-[90%] xl:w-[80%] flex flex-col justify-center items-center">
         <h1 className="text-2xl font-bold mb-6 text-white">
           Próximos Lembretes

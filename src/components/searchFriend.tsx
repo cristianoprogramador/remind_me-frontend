@@ -87,7 +87,7 @@ export function SearchFriend() {
       </div>
 
       <div className="border bg-slate-300 rounded-md w-full flex flex-col mb-4">
-        {error && <div className="text-red-500 mt-2 text-center">{error}</div>}
+        {error && <div className="text-red-500 my-2 text-center">{error}</div>}
         {searchResult && (
           <>
             <h1 className="text-2xl font-bold mt-3 text-center">Resultados:</h1>
@@ -108,7 +108,7 @@ export function SearchFriend() {
                 <p className="text-gray-600">{searchResult.email}</p>
               </div>
               {searchResult.status ? (
-                <div className="ml-auto text-sm text-gray-600">
+                <div className="ml-auto text-sm text-gray-600 border border-slate-700 p-1 text-center rounded-lg">
                   {searchResult.status === "PENDING"
                     ? "Aguardando resposta"
                     : searchResult.status === "ACCEPTED"

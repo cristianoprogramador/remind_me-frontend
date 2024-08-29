@@ -130,8 +130,8 @@ export default function FriendsPage() {
   }
 
   return (
-    <main className="flex flex-col justify-start items-center p-8 w-full">
-      <div className="max-w-[720px] w-[80%] flex flex-col justify-center items-center">
+    <div className="flex flex-col justify-start pt-8 gap-10 items-center h-full">
+      <div className="w-[90%] max-w-[500px] flex flex-col justify-center items-center">
         <h1 className="text-2xl font-bold mb-6 text-white">Amigos</h1>
 
         <SearchFriend />
@@ -141,9 +141,9 @@ export default function FriendsPage() {
           {friends.map((friend) => (
             <div
               key={friend.uuid}
-              className="border rounded-md flex-row justify-between p-4 flex items-center bg-white"
+              className="border rounded-md flex flex-col md:flex-row justify-start p-4 items-start bg-white"
             >
-              <div className="flex flex-row items-center gap-4">
+              <div className="flex flex-row items-center gap-4 w-full">
                 {friend.profileImageUrl ? (
                   <Image
                     src={friend.profileImageUrl}
@@ -157,12 +157,13 @@ export default function FriendsPage() {
                 )}
                 <div>
                   <h2 className="text-lg font-semibold">{friend.name}</h2>
-                  <p className="text-gray-600">{friend.email}</p>
+                  <p className="text-gray-600 md:text-base text-sm break-all">
+                    {friend.email}
+                  </p>
                 </div>
-              </div>
-              <div>
+                {/* Adiciona `ml-auto` para empurrar o botão para o canto direito */}
                 <button
-                  className="h-10 px-4 bg-gray-200 text-slate-800 transition-all duration-400 ease-in-out transform hover:bg-red-600 hover:text-white rounded-md text-sm"
+                  className="ml-auto h-10 px-4 bg-gray-200 text-slate-800 transition-all duration-400 ease-in-out transform hover:bg-red-600 hover:text-white rounded-md text-sm"
                   onClick={() => handleUnfriend(friend.uuid)}
                 >
                   Excluir
@@ -241,7 +242,7 @@ export default function FriendsPage() {
                   )}
                   <div>
                     <h2 className="text-lg font-semibold">{request.name}</h2>
-                    <p className="text-gray-600">{request.email}</p>
+                    <p className="text-gray-600 text-xs">{request.email}</p>
                   </div>
                 </div>
                 <div className="text-sm text-gray-500">
@@ -252,7 +253,7 @@ export default function FriendsPage() {
           ))}
         </div>
       </div>
-    </main>
+    </div>
   );
 
   async function handleResponse(requestId: string, accept: boolean) {

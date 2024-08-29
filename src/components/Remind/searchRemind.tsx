@@ -22,7 +22,7 @@ export function SearchRemind({
 
   return (
     <div className="border rounded-md w-full flex flex-col mb-7">
-      <div className="flex flex-row items-center justify-center">
+      <div className="md:flex grid grid-cols-1 md:flex-row w-ful items-center justify-center">
         <input
           type="text"
           className="w-full bg-transparent pl-5 py-4 text-white outline-none"
@@ -30,18 +30,20 @@ export function SearchRemind({
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
-        <div className="flex flex-wrap mx-4 w-72 text-xs">
+        <div className="md:flex md:mx-4 w-full md:w-72 md:text-xs px-4 md:px-0">
           <CategorySelect
             selectedCategory={selectedCategory}
             onChange={handleCategoryChange}
           />
         </div>
-        <button
-          className="h-10 w-32 bg-gray-200 text-slate-800 transition-all duration-400 ease-in-out transform hover:bg-blue-600 hover:text-white rounded-md mr-4"
-          onClick={handleSearch}
-        >
-          Buscar
-        </button>
+        <div className="flex items-center justify-center text-center my-3 md:my-0">
+          <button
+            className="h-10 w-28 bg-gray-200 text-slate-800 transition-all duration-400 ease-in-out transform hover:bg-blue-600 hover:text-white rounded-md mr-4"
+            onClick={handleSearch}
+          >
+            Buscar
+          </button>
+        </div>
       </div>
     </div>
   );

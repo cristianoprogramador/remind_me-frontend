@@ -1,5 +1,6 @@
 "use client";
 
+import PhoneInput from "@/components/phoneInput";
 import { ToolTip } from "@/components/tooltip";
 import { UserProps } from "@/types";
 import { useSession } from "next-auth/react";
@@ -175,7 +176,7 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="flex flex-col justify-center gap-10 items-center h-full">
+    <div className="flex flex-col justify-start pt-20 gap-10 items-center h-full">
       <div className="w-[90%] max-w-[400px] bg-gray-200 flex flex-col justify-center items-center border rounded-lg">
         <div className="w-[90%] px-4">
           <div className="text-center py-5 font-semibold text-xl text-gray-800">
@@ -216,11 +217,9 @@ export default function ProfilePage() {
 
               <div className="flex flex-col w-full border border-gray-500 rounded-lg p-4">
                 <label className="mb-1 text-gray-700">Telefone</label>
-                <input
-                  type="text"
+                <PhoneInput
                   value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  className="bg-transparent outline-none"
+                  onChange={setPhone}
                   disabled={!notificationsEnabled}
                 />
                 <div className="flex justify-between items-center mt-2">
