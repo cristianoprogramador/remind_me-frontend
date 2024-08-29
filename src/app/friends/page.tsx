@@ -199,15 +199,15 @@ export default function FriendsPage() {
                     <p className="text-gray-600">{request.email}</p>
                   </div>
                 </div>
-                <div className="flex gap-2">
+                <div className="flex flex-col gap-2">
                   <button
-                    className="h-10 w-32 bg-green-500 text-white rounded-md hover:bg-green-600"
+                    className="h-10 w-24 md:w-32 bg-green-500 text-white rounded-md hover:bg-green-600"
                     onClick={() => handleResponse(request.uuid, true)}
                   >
                     Aceitar
                   </button>
                   <button
-                    className="h-10 w-32 bg-red-500 text-white rounded-md hover:bg-red-600"
+                    className="h-10 w-24 md:w-32 bg-red-500 text-white rounded-md hover:bg-red-600"
                     onClick={() => handleResponse(request.uuid, false)}
                   >
                     Rejeitar
@@ -245,7 +245,7 @@ export default function FriendsPage() {
                     <p className="text-gray-600 text-xs">{request.email}</p>
                   </div>
                 </div>
-                <div className="text-sm text-gray-500">
+                <div className="text-sm text-gray-500 text-center">
                   Aguardando resposta...
                 </div>
               </div>

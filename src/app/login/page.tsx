@@ -1,9 +1,14 @@
 "use client";
 
 import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { FaGithub, FaGoogle } from "react-icons/fa";
 
 export default function LoginPage() {
+  const router = useRouter();
+  const [error, setError] = useState<string | null>(null);
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -11,9 +16,10 @@ export default function LoginPage() {
     const password = formData.get("password") as string;
 
     await signIn("credentials", {
-      redirect: false,
+      redirect: true,
       email,
       password,
+      callbackUrl: "/",
     });
   };
 
@@ -26,7 +32,8 @@ export default function LoginPage() {
               Acesse a conta!
             </div>
             <div className="mt-3 text-sm">Seja bem-vindo de volta</div>
-
+            {error && <div className="mt-4 text-red-500">{error}</div>}{" "}
+            {/* Exibir mensagem de erro */}
             <form onSubmit={handleSubmit} className="mt-6">
               <div className="mb-4">
                 <label
@@ -69,7 +76,6 @@ export default function LoginPage() {
                 Entrar
               </button>
             </form>
-
             <div className="mt-6 flex items-center justify-between">
               <div className="w-full h-px bg-gray-300"></div>
               <span className="w-full flex text-center items-center justify-center text-sm text-gray-500">
@@ -77,7 +83,6 @@ export default function LoginPage() {
               </span>
               <div className="w-full h-px bg-gray-300"></div>
             </div>
-
             <div className="mt-6 flex justify-center space-x-4">
               <button
                 type="button"
@@ -96,6 +101,15 @@ export default function LoginPage() {
                 <FaGoogle className="mr-2" />
                 Google
               </button>
+            </div>
+            <div className="flex flex-row gap-3 items-center justify-center md:w-full mt-5">
+              <div className="text-sm">Ainda não tem conta?</div>
+              <div
+                className="text-blue-700 font-semibold text-right text-sm cursor-pointer"
+                onClick={() => router.push("/signup")}
+              >
+                Cadastre-se agora!
+              </div>
             </div>
           </div>
         </div>

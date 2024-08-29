@@ -78,7 +78,7 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
 
   return (
     <div className="bg-gradient-to-r from-slate-900 to-slate-800 min-h-screen flex justify-center">
-      <div className="w-full max-w-[1250px] flex">
+      <div className="w-full max-w-[1050px] flex">
         <aside className="md:w-20 lg:w-64 md:flex hidden flex-col border-r-[1px] border-gray-700 text-white">
           <div className="flex flex-row gap-2 justify-center items-center mt-7">
             <Image src={"/logo.png"} alt="logo" width={40} height={100} />

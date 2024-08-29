@@ -6,12 +6,19 @@ export async function middleware(req: NextRequest) {
   const token = await getToken({ req, secret: process.env.JWT_SECRET });
   const { pathname } = req.nextUrl;
 
-  if (!token) {
+  if ((pathname === "/login" || pathname === "/signup") && token) {
     return NextResponse.redirect(new URL("/", req.url));
   }
 
-  if (pathname === "/login" && token) {
-    return NextResponse.redirect(new URL("/", req.url));
+  if (
+    !token &&
+    (pathname.startsWith("/settings") ||
+      pathname.startsWith("/profile") ||
+      pathname.startsWith("/search") ||
+      pathname.startsWith("/home") ||
+      pathname.startsWith("/friends"))
+  ) {
+    return NextResponse.redirect(new URL("/login", req.url));
   }
 
   return NextResponse.next();
@@ -25,5 +32,6 @@ export const config = {
     "/home/:path*",
     "/friends/:path*",
     "/login",
+    "/signup",
   ],
 };

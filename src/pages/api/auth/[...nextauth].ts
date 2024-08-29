@@ -62,14 +62,14 @@ export const authOptions: NextAuthOptions = {
             throw new Error("Erro ao autenticar o usuário");
           }
 
-          const user = await res.json();
+          const data = await res.json();
 
-          if (user && user.id) {
+          if (data && data.user.uuid) {
             return {
-              id: user.id,
-              name: user.name,
-              email: user.email,
-              image: user.image,
+              id: data.user.uuid,
+              name: data.user.name,
+              email: data.user.email,
+              image: data.user.image,
             };
           } else {
             throw new Error("Usuário não encontrado ou senha incorreta");

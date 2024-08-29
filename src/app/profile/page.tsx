@@ -125,7 +125,6 @@ export default function ProfilePage() {
   };
 
   useEffect(() => {
-    // Buscar configurações de notificação ao montar o componente
     const fetchNotificationSettings = async () => {
       try {
         const res = await fetch(
@@ -141,22 +140,22 @@ export default function ProfilePage() {
 
         if (res.ok) {
           const data = await res.json();
+
           setNotificationsEnabled(data.emailNotify || data.phoneNotify);
           setEmailNotifications(data.emailNotify);
           setPhoneNotifications(data.phoneNotify);
-          setWeeklySummary(data.weeklySummary || false); // Adicionando o valor de weeklySummary
+          setWeeklySummary(data.weeklySummary || false);
           setPhone(data.phoneNumber || "");
 
-          // Definindo os estados originais para comparação posterior
           setOriginalNotificationsEnabled(data.emailNotify || data.phoneNotify);
           setOriginalEmailNotifications(data.emailNotify);
           setOriginalPhoneNotifications(data.phoneNotify);
-          setOriginalWeeklySummary(data.weeklySummary || false); // Definindo o estado original
+          setOriginalWeeklySummary(data.weeklySummary || false);
           setOriginalPhone(data.phoneNumber || "");
 
-          setNotificationExists(true); // Indica que as configurações de notificação existem
+          setNotificationExists(true);
         } else {
-          setNotificationExists(false); // Indica que as configurações de notificação não existem
+          setNotificationExists(false);
         }
       } catch (error) {
         console.error("Erro ao buscar configurações de notificação:", error);
