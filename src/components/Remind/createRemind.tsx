@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { CiImageOn } from "react-icons/ci";
 import { FiCalendar } from "react-icons/fi";
+import { toast } from "react-toastify";
 
 interface CreateRemindProps {
   onCreate: (newAnnotation: Annotation) => void;
@@ -30,7 +31,7 @@ export function CreateRemind({ onCreate }: CreateRemindProps) {
 
   const handleCreateAnnotation = async () => {
     if (!content || !remindAt) {
-      alert("Por favor, preencha todos os campos obrigatórios.");
+      toast.warning("Por favor, preencha todos os campos obrigatórios.");
       return;
     }
 
@@ -66,9 +67,11 @@ export function CreateRemind({ onCreate }: CreateRemindProps) {
       setRemindAt("");
       setSelectedCategory(null);
       setSelectedUserIds([fixedUserId]);
+
+      toast.success("Lembrete criado com sucesso!");
     } catch (error) {
       console.error("Erro ao criar anotação:", error);
-      alert("Erro ao criar anotação");
+      toast.error("Erro ao criar anotação");
     }
   };
 

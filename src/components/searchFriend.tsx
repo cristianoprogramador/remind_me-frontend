@@ -3,6 +3,7 @@ import Image from "next/image";
 import { FaUser } from "react-icons/fa";
 import { useSession } from "next-auth/react";
 import { SearchResult, UserProps } from "@/types";
+import { toast } from "react-toastify";
 
 
 export function SearchFriend() {
@@ -60,7 +61,7 @@ export function SearchFriend() {
       }
 
       setIsPending(true);
-      alert("Solicitação de amizade enviada com sucesso");
+      toast.success("Solicitação de amizade enviada com sucesso");
     } catch (error) {
       console.error("Erro ao enviar solicitação de amizade", error);
     }

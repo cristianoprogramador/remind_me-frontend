@@ -2,16 +2,48 @@
 "use client";
 
 import { ToolTip } from "@/components/tooltip";
+import { UserProps } from "@/types";
+import { signOut, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { IoIosInformationCircleOutline } from "react-icons/io";
+import { toast } from "react-toastify";
 
 export default function SettingsPage() {
   const [theme, setTheme] = useState("light");
   const [language, setLanguage] = useState("pt-BR");
+  const { data: session } = useSession();
+  const router = useRouter();
 
-  const handleDeleteAccount = () => {
-    // Lógica para excluir conta
-    console.log("Conta excluída.");
+  const handleDeleteAccount = async () => {
+    if (!session) return;
+
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/user/${
+          (session.user as UserProps).id
+        }`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${(session?.user as UserProps)?.token}`,
+          },
+        }
+      );
+
+      if (!res.ok) {
+        throw new Error("Falha ao excluir o usuário");
+      }
+
+      toast.success("Conta excluída com sucesso.");
+
+      signOut({ redirect: false });
+      router.push("/login");
+    } catch (error) {
+      console.error("Erro ao excluir usuário:", error);
+      toast.error("Erro ao excluir conta.");
+    }
   };
 
   const handleReportProblem = () => {
@@ -25,8 +57,6 @@ export default function SettingsPage() {
           <div className="text-center py-5 font-semibold text-xl text-gray-800">
             Página de Perfil
           </div>
-
-
 
           {/* Tema */}
           <div className="w-full max-w-md mb-6 flex flex-row items-center justify-between gap-3">

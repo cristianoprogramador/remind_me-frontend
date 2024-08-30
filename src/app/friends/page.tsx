@@ -6,6 +6,7 @@ import { useSession } from "next-auth/react";
 import { FaUser } from "react-icons/fa";
 import { SearchFriend } from "@/components/searchFriend";
 import { Friend, Friendship, UserProps } from "@/types";
+import { toast } from "react-toastify";
 
 export default function FriendsPage() {
   const { data: session } = useSession();
@@ -115,7 +116,7 @@ export default function FriendsPage() {
         throw new Error("Failed to unfriend");
       }
 
-      alert("Amizade desfeita com sucesso!");
+      toast.error("Amizade desfeita com sucesso!");
 
       setFriends((prevFriends) =>
         prevFriends.filter((friend) => friend.uuid !== friendId)

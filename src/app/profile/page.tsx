@@ -6,6 +6,7 @@ import { UserProps } from "@/types";
 import { useSession } from "next-auth/react";
 import React, { useState, useEffect } from "react";
 import { IoIosInformationCircleOutline } from "react-icons/io";
+import { toast } from "react-toastify";
 
 export default function ProfilePage() {
   const { data: session, update } = useSession();
@@ -51,7 +52,7 @@ export default function ProfilePage() {
       !hasNotificationsEnabledChanged &&
       !hasWeeklySummaryChanged
     ) {
-      alert("Nenhuma alteração detectada.");
+      toast.warning("Nenhuma alteração detectada.");
       return;
     }
 
@@ -81,7 +82,7 @@ export default function ProfilePage() {
           },
         });
 
-        alert("Nome atualizado com sucesso!");
+        toast.success("Nome atualizado com sucesso!");
       }
 
       // Atualiza ou cria as configurações de notificação se alguma delas foi alterada
@@ -116,11 +117,11 @@ export default function ProfilePage() {
           throw new Error("Failed to update notification settings");
         }
 
-        alert("Configurações de notificação atualizadas com sucesso!");
+        toast.success("Configurações de notificação atualizadas com sucesso!");
       }
     } catch (error) {
       console.error("Erro ao atualizar perfil:", error);
-      alert("Erro ao atualizar perfil");
+      toast.error("Erro ao atualizar perfil");
     }
   };
 
