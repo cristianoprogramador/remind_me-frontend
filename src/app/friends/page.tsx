@@ -197,7 +197,9 @@ export default function FriendsPage() {
                   )}
                   <div>
                     <h2 className="text-lg font-semibold">{request.name}</h2>
-                    <p className="text-gray-600">{request.email}</p>
+                    <p className="text-gray-600 md:text-base text-sm break-all">
+                      {request.email}
+                    </p>
                   </div>
                 </div>
                 <div className="flex flex-col gap-2">
@@ -243,7 +245,8 @@ export default function FriendsPage() {
                   )}
                   <div>
                     <h2 className="text-lg font-semibold">{request.name}</h2>
-                    <p className="text-gray-600 text-xs">{request.email}</p>
+                    <p className="text-gray-600 md:text-base text-xs break-all">
+                    {request.email}</p>
                   </div>
                 </div>
                 <div className="text-sm text-gray-500 text-center">

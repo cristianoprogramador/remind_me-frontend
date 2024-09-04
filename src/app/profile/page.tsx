@@ -99,6 +99,8 @@ export default function ProfilePage() {
 
         const method = notificationExists ? "PUT" : "POST";
 
+        console.log(method)
+
         const resNotification = await fetch(notificationEndpoint, {
           method,
           headers: {
@@ -139,8 +141,10 @@ export default function ProfilePage() {
           }
         );
 
-        if (res.ok) {
-          const data = await res.json();
+        const data = await res.json();
+        console.log(data);
+
+        if (!data.notificationsEmpty) {
 
           setNotificationsEnabled(data.emailNotify || data.phoneNotify);
           setEmailNotifications(data.emailNotify);

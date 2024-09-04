@@ -47,7 +47,7 @@ export default function SettingsPage() {
   };
 
   const handleReportProblem = () => {
-    window.open("https://www.cristianosilvadev.com.br", "_blank");
+    window.open("https://www.cristianosilvadev.com", "_blank");
   };
 
   return (
@@ -55,7 +55,7 @@ export default function SettingsPage() {
       <div className="w-[90%] max-w-[440px] bg-gray-200 flex flex-col justify-center items-center border rounded-lg">
         <div className="w-[90%] px-4">
           <div className="text-center py-5 font-semibold text-xl text-gray-800">
-            Página de Perfil
+            Configurações
           </div>
 
           {/* Tema */}
