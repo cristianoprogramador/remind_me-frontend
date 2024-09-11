@@ -1,3 +1,4 @@
+import { useTheme } from "@/app/theme-context";
 import { Friend, UserProps } from "@/types";
 import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
@@ -17,6 +18,7 @@ const UserSelect: React.FC<UserSelectProps> = ({
   const { data: session } = useSession();
   const [friends, setFriends] = useState<Friend[]>([]);
   const [loading, setLoading] = useState(true);
+  const { theme } = useTheme();
 
   useEffect(() => {
     async function fetchFriends() {
@@ -94,33 +96,37 @@ const UserSelect: React.FC<UserSelectProps> = ({
     control: (provided: any) => ({
       ...provided,
       backgroundColor: "transparent",
-      borderColor: "gray",
-      color: "white",
+      borderColor: theme === "dark" ? "gray" : "#ccc",
+      color: theme === "dark" ? "white" : "black",
     }),
     menu: (provided: any) => ({
       ...provided,
-      backgroundColor: "rgba(31, 41, 55, 1)",
+      backgroundColor: theme === "dark" ? "rgba(31, 41, 55, 1)" : "white",
     }),
     option: (provided: any, state: { isFocused: any }) => ({
       ...provided,
-      backgroundColor: state.isFocused ? "rgba(75, 85, 99, 1)" : "transparent",
-      color: "white",
+      backgroundColor: state.isFocused
+        ? theme === "dark"
+          ? "rgba(75, 85, 99, 1)"
+          : "#ddd"
+        : "transparent",
+      color: theme === "dark" ? "white" : "black",
     }),
     singleValue: (provided: any) => ({
       ...provided,
-      color: "white",
+      color: theme === "dark" ? "white" : "black",
     }),
     multiValue: (provided: any) => ({
       ...provided,
-      backgroundColor: "rgba(75, 85, 99, 1)",
-      color: "white",
+      backgroundColor: theme === "dark" ? "rgba(75, 85, 99, 1)" : "#e5e5e5",
+      color: theme === "dark" ? "white" : "black",
       overflow: "hidden",
       textOverflow: "ellipsis",
       whiteSpace: "nowrap",
     }),
     multiValueLabel: (provided: any) => ({
       ...provided,
-      color: "white",
+      color: theme === "dark" ? "white" : "black",
       overflow: "hidden",
       textOverflow: "ellipsis",
       whiteSpace: "nowrap",

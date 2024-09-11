@@ -21,11 +21,11 @@ export function SearchRemind({
   };
 
   return (
-    <div className="border rounded-md w-full flex flex-col mb-7">
+    <div className="border border-theme-border-color rounded-md w-full flex flex-col mb-7">
       <div className="md:flex grid grid-cols-1 md:flex-row w-ful items-center justify-center">
         <input
           type="text"
-          className="w-full bg-transparent pl-5 py-4 text-white outline-none"
+          className="w-full bg-transparent pl-5 py-4 text-theme-text-color outline-none"
           placeholder="Buscar por..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}

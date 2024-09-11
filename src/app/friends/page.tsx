@@ -131,9 +131,9 @@ export default function FriendsPage() {
   }
 
   return (
-    <div className="flex flex-col justify-start pt-8 gap-10 items-center h-full">
+    <div className="flex flex-col justify-center pt-8 gap-10 items-center h-full">
       <div className="w-[90%] max-w-[500px] flex flex-col justify-center items-center">
-        <h1 className="text-2xl font-bold mb-6 text-white">Amigos</h1>
+        <h1 className="text-2xl font-bold mb-6 text-theme-text-color">Amigos</h1>
 
         <SearchFriend />
 
@@ -142,7 +142,7 @@ export default function FriendsPage() {
           {friends.map((friend) => (
             <div
               key={friend.uuid}
-              className="border rounded-md flex flex-col md:flex-row justify-start p-4 items-start bg-white"
+              className="border border-theme-border-color rounded-md flex flex-col md:flex-row justify-start p-4 items-start bg-white"
             >
               <div className="flex flex-row items-center gap-4 w-full">
                 {friend.profileImageUrl ? (
@@ -179,10 +179,10 @@ export default function FriendsPage() {
         <div className="w-full flex flex-col gap-4 mb-6">
           {receivedRequests.map((request) => (
             <div key={request.uuid}>
-              <h2 className="text-xl font-bold mb-4 text-white">
+              <h2 className="text-xl font-bold mb-4 text-theme-text-color">
                 Solicitações de Amizade Recebidas
               </h2>
-              <div className="border rounded-md p-4 flex justify-between items-center bg-white">
+              <div className="border border-theme-border-color rounded-md p-4 flex justify-between items-center bg-white">
                 <div className="flex items-center gap-4">
                   {request.profileImageUrl ? (
                     <Image
@@ -230,7 +230,7 @@ export default function FriendsPage() {
                 Solicitações de Amizade Enviadas
               </h2>
 
-              <div className="border rounded-md p-4 flex justify-between items-center bg-white">
+              <div className="border border-theme-border-color rounded-md p-4 flex justify-between items-center bg-white">
                 <div className="flex items-center gap-4">
                   {request.profileImageUrl ? (
                     <Image

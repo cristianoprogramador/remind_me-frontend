@@ -5,7 +5,6 @@ import { useSession } from "next-auth/react";
 import { SearchResult, UserProps } from "@/types";
 import { toast } from "react-toastify";
 
-
 export function SearchFriend() {
   const { data: session } = useSession();
   const [email, setEmail] = useState("");
@@ -69,13 +68,13 @@ export function SearchFriend() {
 
   return (
     <>
-      <div className="border rounded-md w-full flex flex-col mb-7">
+      <div className="border border-theme-border-color rounded-md w-full flex flex-col mb-7">
         <div className="flex flex-row items-center justify-center">
           <input
             type="text"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full bg-transparent pl-5 py-4 text-white outline-none"
+            className="w-full bg-transparent pl-5 py-4 text-theme-text-color outline-none"
             placeholder="Buscar por e-mail..."
           />
           <button

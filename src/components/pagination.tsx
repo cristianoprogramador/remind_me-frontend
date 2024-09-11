@@ -1,3 +1,4 @@
+import { useTheme } from "@/app/theme-context";
 import React from "react";
 
 interface PaginationProps {
@@ -14,6 +15,7 @@ export const Pagination: React.FC<PaginationProps> = ({
   onPageChange,
 }) => {
   const totalPages = Math.ceil(totalCount / pageSize);
+  const { theme } = useTheme();
 
   const handlePrevious = () => {
     if (currentPage > 1) {
@@ -32,17 +34,21 @@ export const Pagination: React.FC<PaginationProps> = ({
       <button
         onClick={handlePrevious}
         disabled={currentPage === 1}
-        className="px-4 py-2 bg-gray-400 rounded-l-md disabled:bg-gray-800 border border-gray-400 disabled:text-gray-400 disabled:cursor-not-allowed"
+        className="px-4 py-2 bg-gray-400 rounded-l-md disabled:bg-gray-800 border border-theme-border-color disabled:text-white disabled:cursor-not-allowed"
       >
         Anterior
       </button>
-      <span className="px-4 py-2">
+      <div
+        className={`px-4 py-2  ${
+          theme === "dark" ? "text-white" : "text-black"
+        }`}
+      >
         Página {currentPage} de {totalPages}
-      </span>
+      </div>
       <button
         onClick={handleNext}
         disabled={currentPage === totalPages}
-        className="px-4 py-2 bg-gray-400 rounded-r-md disabled:bg-gray-800 border border-gray-400 disabled:text-gray-400 disabled:cursor-not-allowed"
+        className="px-4 py-2 bg-gray-400 rounded-r-md disabled:bg-gray-800 border border-theme-border-color disabled:text-white disabled:cursor-not-allowed"
       >
         Próxima
       </button>

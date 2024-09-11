@@ -8,9 +8,10 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { IoIosInformationCircleOutline } from "react-icons/io";
 import { toast } from "react-toastify";
+import { useTheme } from "../theme-context";
 
 export default function SettingsPage() {
-  const [theme, setTheme] = useState("light");
+  const { theme, toggleTheme } = useTheme();
   const [language, setLanguage] = useState("pt-BR");
   const { data: session } = useSession();
   const router = useRouter();
@@ -50,8 +51,15 @@ export default function SettingsPage() {
     window.open("https://www.cristianosilvadev.com", "_blank");
   };
 
+  const handleThemeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedTheme = event.target.value;
+    if (selectedTheme !== theme) {
+      toggleTheme();
+    }
+  };
+
   return (
-    <div className="flex flex-col justify-start pt-20 gap-10 items-center h-full">
+    <div className="flex flex-col justify-center py-8 gap-10 items-center h-full">
       <div className="w-[90%] max-w-[440px] bg-gray-200 flex flex-col justify-center items-center border rounded-lg">
         <div className="w-[90%] px-4">
           <div className="text-center py-5 font-semibold text-xl text-gray-800">
@@ -62,8 +70,8 @@ export default function SettingsPage() {
           <div className="w-full max-w-md mb-6 flex flex-row items-center justify-between gap-3">
             <label className="text-gray-700">Tema</label>
             <select
+              onChange={handleThemeChange}
               value={theme}
-              onChange={(e) => setTheme(e.target.value)}
               className="mt-2 p-3 bg-gray-300 rounded-lg"
             >
               <option value="light">Modo Claro</option>

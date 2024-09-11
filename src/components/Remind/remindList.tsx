@@ -1,14 +1,8 @@
 // src\components\Remind\remind.tsx
 
-import React, { Dispatch, SetStateAction, useState } from "react";
-import Image from "next/image";
-import { AiOutlineEdit, AiOutlineSave } from "react-icons/ai";
-import {
-  AiOutlineTag,
-  AiOutlineInfoCircle,
-  AiOutlineUser,
-  AiOutlineTeam,
-} from "react-icons/ai";
+import React, { useState } from "react";
+import { AiOutlineEdit } from "react-icons/ai";
+import { AiOutlineTag, AiOutlineUser, AiOutlineTeam } from "react-icons/ai";
 import { Annotation, UserProps } from "@/types";
 import { ToolTip } from "../tooltip";
 import { EditRemind } from "./editRemind";
@@ -75,7 +69,7 @@ const RemindList: React.FC<AnnotationListProps> = ({
       {annotations.map((annotation) => (
         <div
           key={annotation.uuid}
-          className="bg-white p-4 rounded-md shadow-md"
+          className="bg-white p-4 rounded-md shadow-md border border-theme-border-color"
         >
           <div className="mb-4 text-sm text-gray-500 flex flex-col md:gap-0 gap-1 md:flex-row justify-between">
             <div className="flex flex-col gap-1">

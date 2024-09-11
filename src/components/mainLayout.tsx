@@ -6,10 +6,12 @@ import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 import { TfiWrite } from "react-icons/tfi";
 import { LuSettings } from "react-icons/lu";
-import { MdManageSearch } from "react-icons/md";
+import { MdManageSearch, MdOutlineWbSunny } from "react-icons/md";
 import { FiLogOut } from "react-icons/fi";
 import { signOut } from "next-auth/react";
 import { FaUserFriends } from "react-icons/fa";
+import { useTheme } from "@/app/theme-context";
+import { GoMoon } from "react-icons/go";
 
 interface MainLayoutProps {
   children: ReactNode;
@@ -22,64 +24,76 @@ interface MenuItemProps {
   onClick?: () => void;
 }
 
-const MenuItemSidebar: React.FC<MenuItemProps> = ({
-  path,
-  title,
-  icon,
-  onClick,
-}) => {
-  const router = useRouter();
-  const pathname = usePathname();
-  const isActive = pathname === path;
-
-  return (
-    <li
-      title={title}
-      className={`p-4 cursor-pointer flex flex-row items-center justify-center lg:justify-start gap-3 transition-all duration-400 ease-in-out transform hover:bg-slate-700 rounded-l-xl ${
-        isActive && "bg-slate-800"
-      }`}
-      onClick={onClick || (() => router.push(path || "/"))}
-    >
-      {icon}
-      <p className="hidden lg:flex">{title}</p>
-    </li>
-  );
-};
-
-const MenuItemHeader: React.FC<MenuItemProps> = ({
-  path,
-  title,
-  icon,
-  onClick,
-}) => {
-  const router = useRouter();
-  const pathname = usePathname();
-  const isActive = pathname === path;
-
-  return (
-    <div
-      title={title}
-      className={`p-4 cursor-pointer flex flex-row items-center gap-3 transition-all duration-400 ease-in-out transform hover:bg-slate-700 rounded-b-lg mb-1 ${
-        isActive && "bg-slate-800"
-      }`}
-      onClick={onClick || (() => router.push(path || "/"))}
-    >
-      {icon}
-    </div>
-  );
-};
-
 export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
+  const { theme, toggleTheme } = useTheme();
+
   const handleLogout = () => {
     if (window.confirm("Tem certeza que deseja sair?")) {
       signOut({ callbackUrl: "/login" });
     }
   };
 
+  const MenuItemSidebar: React.FC<MenuItemProps> = ({
+    path,
+    title,
+    icon,
+    onClick,
+  }) => {
+    const router = useRouter();
+    const pathname = usePathname();
+    const isActive = pathname === path;
+
+    return (
+      <li
+        title={title}
+        className={`p-4 cursor-pointer flex flex-row items-center justify-center lg:justify-start gap-3 transition-all duration-400 ease-in-out transform hover:bg-slate-700 hover:text-white rounded-l-xl ${
+          isActive && "bg-slate-800 text-white"
+        }`}
+        onClick={onClick || (() => router.push(path || "/"))}
+      >
+        {icon}
+        <p className="hidden lg:flex">{title}</p>
+      </li>
+    );
+  };
+
+  const MenuItemHeader: React.FC<MenuItemProps> = ({
+    path,
+    title,
+    icon,
+    onClick,
+  }) => {
+    const router = useRouter();
+    const pathname = usePathname();
+    const isActive = pathname === path;
+
+    return (
+      <div
+        title={title}
+        className={`p-4 cursor-pointer flex flex-row items-center gap-3 transition-all duration-400 ease-in-out transform hover:bg-slate-700 rounded-b-lg mb-1 ${
+          isActive && "bg-slate-900 text-white"
+        }`}
+        onClick={onClick || (() => router.push(path || "/"))}
+      >
+        {icon}
+      </div>
+    );
+  };
+
   return (
-    <div className="bg-gradient-to-r from-slate-900 to-slate-800 min-h-screen flex justify-center">
+    <div
+      className={`min-h-screen flex justify-center transition-colors duration-300 ${
+        theme === "dark"
+          ? "bg-gradient-to-r from-slate-900 to-slate-800"
+          : "bg-white"
+      }`}
+    >
       <div className="w-full max-w-[1050px] flex">
-        <aside className="md:w-20 lg:w-64 md:flex hidden flex-col border-r-[1px] border-gray-700 text-white">
+        <aside
+          className={`md:w-20 lg:w-64 md:flex hidden flex-col border-r-[1px] border-gray-700 ${
+            theme === "dark" ? "text-white" : "text-black"
+          }`}
+        >
           <div className="flex flex-row gap-2 justify-center items-center mt-7">
             <Image src={"/logo.png"} alt="logo" width={40} height={100} />
             <div className="p-5 text-xl font-semibold select-none hidden lg:flex">
@@ -118,11 +132,33 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
               onClick={handleLogout}
             />
           </ul>
+          <div className="flex flex-row gap-4 justify-center mt-auto mb-4">
+            {theme === "light" ? (
+              <GoMoon
+                size={20}
+                onClick={toggleTheme}
+                className="cursor-pointer"
+                color="black"
+              />
+            ) : (
+              <MdOutlineWbSunny
+                size={20}
+                onClick={toggleTheme}
+                className="cursor-pointer"
+                color="white"
+              />
+            )}
+          </div>
         </aside>
 
         {/* Conteúdo principal */}
         <div className="flex-1 flex flex-col ">
-          <div className="md:hidden flex flex-row justify-around text-white border-b">
+          <div
+            className={`md:hidden flex flex-row justify-around  border-b ${
+              theme === "dark" ? "text-white" : "text-black"
+            }
+      }`}
+          >
             <MenuItemHeader
               path="/"
               title="Página Inicial"

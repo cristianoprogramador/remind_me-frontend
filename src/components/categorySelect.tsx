@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import CreatableSelect from "react-select/creatable";
 import { useSession } from "next-auth/react";
 import { CategoryOption, UserProps } from "@/types";
+import { useTheme } from "@/app/theme-context";
 
 
 interface CategorySelectProps {
@@ -16,6 +17,7 @@ const CategorySelect: React.FC<CategorySelectProps> = ({
   const { data: session } = useSession();
   const [categories, setCategories] = useState<CategoryOption[]>([]);
   const [loading, setLoading] = useState(true);
+  const { theme } = useTheme();
 
   const handleChange = (newValue: CategoryOption | null) => {
     onChange(newValue);
@@ -54,30 +56,34 @@ const CategorySelect: React.FC<CategorySelectProps> = ({
     control: (provided: any) => ({
       ...provided,
       backgroundColor: "transparent",
-      borderColor: "gray",
-      color: "white",
+      borderColor: theme === "dark" ? "gray" : "#ccc",
+      color: theme === "dark" ? "white" : "black",
     }),
     menu: (provided: any) => ({
       ...provided,
-      backgroundColor: "rgba(31, 41, 55, 1)",
+      backgroundColor: theme === "dark" ? "rgba(31, 41, 55, 1)" : "white",
     }),
     option: (provided: any, state: { isFocused: any }) => ({
       ...provided,
-      backgroundColor: state.isFocused ? "rgba(75, 85, 99, 1)" : "transparent",
-      color: "white",
+      backgroundColor: state.isFocused
+        ? theme === "dark"
+          ? "rgba(75, 85, 99, 1)"
+          : "#ddd"
+        : "transparent",
+      color: theme === "dark" ? "white" : "black",
     }),
     singleValue: (provided: any) => ({
       ...provided,
-      color: "white",
+      color: theme === "dark" ? "white" : "black",
     }),
     multiValue: (provided: any) => ({
       ...provided,
-      backgroundColor: "rgba(75, 85, 99, 1)",
-      color: "white",
+      backgroundColor: theme === "dark" ? "rgba(75, 85, 99, 1)" : "#e5e5e5",
+      color: theme === "dark" ? "white" : "black",
     }),
     multiValueLabel: (provided: any) => ({
       ...provided,
-      color: "white",
+      color: theme === "dark" ? "white" : "black",
     }),
   };
 

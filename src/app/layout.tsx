@@ -6,7 +6,8 @@ import "./globals.css";
 import SessionProviderWrapper from "./SessionProviderWrapper";
 import { AuthLayout } from "@/components/authLayout";
 import { ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
+import { ThemeProvider } from "./theme-context";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,12 +24,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <SessionProviderWrapper>
-          <AuthLayout>
-            {children}
-            <ToastContainer />
-          </AuthLayout>
-        </SessionProviderWrapper>
+        <ThemeProvider>
+          <SessionProviderWrapper>
+            <AuthLayout>
+              {children}
+              <ToastContainer />
+            </AuthLayout>
+          </SessionProviderWrapper>
+        </ThemeProvider>
       </body>
     </html>
   );

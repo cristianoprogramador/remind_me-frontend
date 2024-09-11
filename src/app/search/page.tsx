@@ -70,7 +70,7 @@ export default function SearchPage() {
         <SearchRemind onSearch={handleSearch} />
 
         {loading ? (
-          <p className="text-white">Carregando lembretes...</p>
+          <p className="text-text-color">Carregando lembretes...</p>
         ) : (
           <>
             <RemindList

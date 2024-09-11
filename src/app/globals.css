@@ -7,6 +7,27 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --text-light: #000000;
+  --text-dark: #ffffff;
+
+  --border-light: #000000;
+  --border-dark: #ffffff;
+
+  --modal-light: #ffffff;
+  --modal-dark: #1F2937;
+}
+
+.light {
+  --text-color: var(--text-light);
+  --border-color: var(--border-light);
+  --modal-color: var(--modal-light);
+}
+
+.dark {
+  --text-color: var(--text-dark);
+  --border-color: var(--border-dark);
+  --modal-color: var(--modal-dark);
 }
 
 input[type="datetime-local"]::-webkit-calendar-picker-indicator {

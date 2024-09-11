@@ -76,23 +76,23 @@ export function CreateRemind({ onCreate }: CreateRemindProps) {
   };
 
   return (
-    <div className="border rounded-md w-full flex flex-col mb-7">
+    <div className="border border-theme-border-color rounded-md w-full flex flex-col mb-7">
       <div>
         <textarea
-          className="w-full bg-transparent px-5 py-3 text-white outline-none"
+          className="w-full bg-transparent px-5 py-3 text-theme-text-color outline-none"
           placeholder="Eu preciso lembrar de..."
           rows={1}
           value={content}
           onChange={(e) => setContent(e.target.value)}
         />
       </div>
-      <div className="h-[1px] w-full bg-gray-300 mb-4" />
+      <div className="h-[1px] w-full bg-theme-text-color mb-4" />
       <div className="flex flex-row text-white justify-between items-center mb-2">
         <div className="md:flex grid grid-cols-1 md:flex-row w-full gap-3 mx-4 items-center text-xs">
           <div className="relative flex items-center">
             <input
               type="datetime-local"
-              className="bg-transparent text-white pl-10 w-44 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="bg-transparent text-theme-text-color pl-10 w-44 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               value={remindAt}
               onChange={(e) => {
                 const [datePart, timePart] = e.target.value.split("T");
