@@ -3,11 +3,13 @@
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { FaGithub, FaGoogle } from "react-icons/fa";
 
 export default function LoginPage() {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
+  const { t } = useTranslation();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -29,9 +31,9 @@ export default function LoginPage() {
         <div className="flex lg:w-1/2 justify-center items-center">
           <div className="p-10 rounded-md sm:border bg-gradient-to-r from-gray-200 to-white">
             <div className="text-center text-2xl lg:text-4xl font-bold">
-              Acesse a conta!
+              {t("loginPage.title")}
             </div>
-            <div className="mt-3 text-sm">Seja bem-vindo de volta</div>
+            <div className="mt-3 text-sm">{t("loginPage.welcomeBack")}</div>
             {error && <div className="mt-4 text-red-500">{error}</div>}{" "}
             {/* Exibir mensagem de erro */}
             <form onSubmit={handleSubmit} className="mt-6">
@@ -40,7 +42,7 @@ export default function LoginPage() {
                   htmlFor="email"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Email
+                  {t("loginPage.emailLabel")}
                 </label>
                 <input
                   type="email"
@@ -48,7 +50,7 @@ export default function LoginPage() {
                   id="email"
                   required
                   className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm sm:text-sm"
-                  placeholder="Digite seu email"
+                  placeholder={t("loginPage.emailPlaceholder")}
                 />
               </div>
 
@@ -57,7 +59,7 @@ export default function LoginPage() {
                   htmlFor="password"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Senha
+                  {t("loginPage.passwordLabel")}
                 </label>
                 <input
                   type="password"
@@ -65,7 +67,7 @@ export default function LoginPage() {
                   id="password"
                   required
                   className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm sm:text-sm"
-                  placeholder="Digite sua senha"
+                  placeholder={t("loginPage.passwordPlaceholder")}
                 />
               </div>
 
@@ -73,13 +75,13 @@ export default function LoginPage() {
                 type="submit"
                 className="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-md hover:bg-indigo-700"
               >
-                Entrar
+                {t("loginPage.loginButton")}
               </button>
             </form>
             <div className="mt-6 flex items-center justify-between">
               <div className="w-full h-px bg-gray-300"></div>
               <span className="w-full flex text-center items-center justify-center text-sm text-gray-500">
-                Entre com
+                {t("loginPage.orSignInWith")}
               </span>
               <div className="w-full h-px bg-gray-300"></div>
             </div>
@@ -103,12 +105,12 @@ export default function LoginPage() {
               </button>
             </div>
             <div className="flex flex-row gap-3 items-center justify-center md:w-full mt-5">
-              <div className="text-sm">Ainda não tem conta?</div>
+              <div className="text-sm">{t("loginPage.noAccount")}</div>
               <div
                 className="text-blue-700 font-semibold text-right text-sm cursor-pointer"
                 onClick={() => router.push("/signup")}
               >
-                Cadastre-se agora!
+                {t("loginPage.signupNow")}
               </div>
             </div>
           </div>

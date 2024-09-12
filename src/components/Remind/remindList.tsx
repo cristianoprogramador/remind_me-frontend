@@ -7,6 +7,7 @@ import { Annotation, UserProps } from "@/types";
 import { ToolTip } from "../tooltip";
 import { EditRemind } from "./editRemind";
 import { useSession } from "next-auth/react";
+import { useTranslation } from "react-i18next";
 
 interface AnnotationListProps {
   annotations: Annotation[];
@@ -21,6 +22,7 @@ const RemindList: React.FC<AnnotationListProps> = ({
     null
   );
   const { data: session } = useSession();
+  const { t } = useTranslation();
 
   const handleModalEditRemind = (annotation: Annotation) => {
     setEditingAnnotation(annotation);
@@ -55,12 +57,12 @@ const RemindList: React.FC<AnnotationListProps> = ({
       );
 
       if (!res.ok) {
-        throw new Error("Falha ao atualizar a anotação");
+        throw new Error(t("remindList.updateFailed")); // Tradução
       }
 
       await fetchAnnotations();
     } catch (error) {
-      console.error("Erro ao atualizar anotação:", error);
+      console.error(t("remindList.updateError"), error); // Tradução
     }
   };
 
@@ -74,14 +76,14 @@ const RemindList: React.FC<AnnotationListProps> = ({
           <div className="mb-4 text-sm text-gray-500 flex flex-col md:gap-0 gap-1 md:flex-row justify-between">
             <div className="flex flex-col gap-1">
               <span className="text-xs">
-                Criado em:{" "}
+                {t("remindList.createdAt")}:{" "}
                 <b className="text-black">
                   {new Date(annotation.createdAt).toLocaleString()}
                 </b>
               </span>
             </div>
             <span className="flex flex-row gap-1">
-              Lembrar em:{" "}
+              {t("remindList.remindAt")}:
               <b className="text-black">
                 {new Date(annotation.remindAt).toLocaleString()}
               </b>{" "}
@@ -98,7 +100,7 @@ const RemindList: React.FC<AnnotationListProps> = ({
             {annotation.updatedAt !== annotation.createdAt && (
               <div className="flex w-full">
                 <span className="text-[10px]">
-                  Editado em:{" "}
+                  {t("remindList.updatedAt")}:{" "}
                   <b className="text-black">
                     {new Date(annotation.updatedAt).toLocaleString()}
                   </b>
@@ -108,14 +110,22 @@ const RemindList: React.FC<AnnotationListProps> = ({
 
             <div className="flex flex-row justify-end w-full gap-4">
               {annotation.category && (
-                <ToolTip content={`Categoria: ${annotation.category.name}`}>
+                <ToolTip
+                  content={`${t("remindList.category")}: ${
+                    annotation.category.name
+                  }`}
+                >
                   <AiOutlineTag
                     size={25}
                     className="text-black cursor-pointer"
                   />
                 </ToolTip>
               )}
-              <ToolTip content={`Criado por: ${annotation.author.name}`}>
+              <ToolTip
+                content={`${t("remindList.createdBy")}: ${
+                  annotation.author.name
+                }`}
+              >
                 <AiOutlineUser
                   size={25}
                   className="text-black cursor-pointer"
@@ -124,7 +134,9 @@ const RemindList: React.FC<AnnotationListProps> = ({
               {annotation.relatedUsers &&
                 annotation.relatedUsers.length > 0 && (
                   <ToolTip
-                    content={`Participantes: ${annotation.relatedUsers
+                    content={`${t(
+                      "remindList.participants"
+                    )}: ${annotation.relatedUsers
                       .map((relatedUser) => relatedUser.user.name)
                       .join(", ")}`}
                   >

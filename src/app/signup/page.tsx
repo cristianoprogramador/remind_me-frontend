@@ -3,10 +3,12 @@
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export default function SignupPage() {
   const [errorMessage, setErrorMessage] = useState("");
-  const router = useRouter(); // Inicialize o useRouter
+  const router = useRouter();
+  const { t } = useTranslation();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -17,7 +19,7 @@ export default function SignupPage() {
     const confirmPassword = formData.get("confirmPassword") as string;
 
     if (password !== confirmPassword) {
-      setErrorMessage("As senhas não coincidem.");
+      setErrorMessage(t("signupPage.passwordMismatch"));
       return;
     }
 
@@ -39,7 +41,7 @@ export default function SignupPage() {
 
       if (!response.ok) {
         const errorData = await response.json();
-        setErrorMessage(errorData.message || "Erro ao criar conta.");
+        setErrorMessage(errorData.message || t("signupPage.registrationError"));
         return;
       }
 
@@ -53,10 +55,10 @@ export default function SignupPage() {
         // Redirecionar para a página inicial após o login bem-sucedido
         router.push("/home");
       } else {
-        setErrorMessage("Erro ao fazer login automaticamente.");
+        setErrorMessage(t("signupPage.autoLoginError"));
       }
     } catch (error) {
-      setErrorMessage("Erro ao criar conta.");
+      setErrorMessage(t("signupPage.registrationError"));
     }
   };
 
@@ -66,11 +68,9 @@ export default function SignupPage() {
         <div className="flex lg:w-1/2 justify-center items-center">
           <div className="p-10 rounded-md sm:border bg-gradient-to-r from-gray-200 to-white">
             <div className="text-center text-2xl lg:text-4xl font-bold">
-              Crie sua conta!
+              {t("signupPage.title")}
             </div>
-            <div className="mt-3 text-sm">
-              Junte-se a nós e comece a usar o site!
-            </div>
+            <div className="mt-3 text-sm">{t("signupPage.subtitle")}</div>
 
             {errorMessage && (
               <div className="text-red-500 text-sm mt-2">{errorMessage}</div>
@@ -82,7 +82,7 @@ export default function SignupPage() {
                   htmlFor="name"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Nome
+                  {t("signupPage.nameLabel")}
                 </label>
                 <input
                   type="text"
@@ -90,7 +90,7 @@ export default function SignupPage() {
                   id="name"
                   required
                   className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm sm:text-sm"
-                  placeholder="Digite seu nome"
+                  placeholder={t("signupPage.namePlaceholder")}
                 />
               </div>
 
@@ -99,7 +99,7 @@ export default function SignupPage() {
                   htmlFor="email"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Email
+                  {t("signupPage.emailLabel")}
                 </label>
                 <input
                   type="email"
@@ -107,7 +107,7 @@ export default function SignupPage() {
                   id="email"
                   required
                   className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm sm:text-sm"
-                  placeholder="Digite seu email"
+                  placeholder={t("signupPage.emailPlaceholder")}
                 />
               </div>
 
@@ -116,7 +116,7 @@ export default function SignupPage() {
                   htmlFor="password"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Senha
+                  {t("signupPage.passwordLabel")}
                 </label>
                 <input
                   type="password"
@@ -124,7 +124,7 @@ export default function SignupPage() {
                   id="password"
                   required
                   className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm sm:text-sm"
-                  placeholder="Digite sua senha"
+                  placeholder={t("signupPage.passwordPlaceholder")}
                 />
               </div>
 
@@ -133,7 +133,7 @@ export default function SignupPage() {
                   htmlFor="confirmPassword"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Confirme sua senha
+                  {t("signupPage.confirmPasswordLabel")}
                 </label>
                 <input
                   type="password"
@@ -141,7 +141,7 @@ export default function SignupPage() {
                   id="confirmPassword"
                   required
                   className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm sm:text-sm"
-                  placeholder="Confirme sua senha"
+                  placeholder={t("signupPage.confirmPasswordPlaceholder")}
                 />
               </div>
 
@@ -149,7 +149,7 @@ export default function SignupPage() {
                 type="submit"
                 className="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-md hover:bg-indigo-700"
               >
-                Cadastrar
+                {t("signupPage.signupButton")}
               </button>
             </form>
           </div>

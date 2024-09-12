@@ -4,6 +4,7 @@ import { FaUser } from "react-icons/fa";
 import { useSession } from "next-auth/react";
 import { SearchResult, UserProps } from "@/types";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 export function SearchFriend() {
   const { data: session } = useSession();
@@ -11,6 +12,7 @@ export function SearchFriend() {
   const [searchResult, setSearchResult] = useState<SearchResult | null>(null);
   const [error, setError] = useState("");
   const [isPending, setIsPending] = useState(false);
+  const { t } = useTranslation();
 
   const handleSearch = async () => {
     setError("");
@@ -30,13 +32,13 @@ export function SearchFriend() {
       );
 
       if (!res.ok) {
-        throw new Error("Usuário não encontrado");
+        throw new Error(t("searchFriend.userNotFound"));
       }
 
       const data: SearchResult = await res.json();
       setSearchResult(data);
     } catch (err) {
-      setError("Usuário não encontrado ou ocorreu um erro");
+      setError(t("searchFriend.error"));
       console.error(err);
     }
   };
@@ -56,13 +58,13 @@ export function SearchFriend() {
       );
 
       if (!res.ok) {
-        throw new Error("Erro ao enviar solicitação de amizade");
+        throw new Error(t("searchFriend.requestError"));
       }
 
       setIsPending(true);
-      toast.success("Solicitação de amizade enviada com sucesso");
+      toast.success(t("searchFriend.success"));
     } catch (error) {
-      console.error("Erro ao enviar solicitação de amizade", error);
+      console.error(t("searchFriend.requestError"), error);
     }
   };
 
@@ -75,13 +77,13 @@ export function SearchFriend() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="w-full bg-transparent pl-5 py-4 text-theme-text-color outline-none"
-            placeholder="Buscar por e-mail..."
+            placeholder={t("searchFriend.placeholder")}
           />
           <button
             onClick={handleSearch}
             className="h-10 w-32 bg-gray-200 text-slate-800 transition-all duration-400 ease-in-out transform hover:bg-blue-600 hover:text-white rounded-md mr-4"
           >
-            Buscar
+            {t("searchFriend.searchButton")}
           </button>
         </div>
       </div>
@@ -90,7 +92,9 @@ export function SearchFriend() {
         {error && <div className="text-red-500 my-2 text-center">{error}</div>}
         {searchResult && (
           <>
-            <h1 className="text-2xl font-bold mt-3 text-center">Resultados:</h1>
+            <h1 className="text-2xl font-bold mt-3 text-center">
+              {t("searchFriend.results")}
+            </h1>
             <div className="flex items-center gap-4 p-4">
               {searchResult.profileImageUrl ? (
                 <Image
@@ -110,10 +114,10 @@ export function SearchFriend() {
               {searchResult.status ? (
                 <div className="ml-auto text-sm text-gray-600 border border-slate-700 p-1 text-center rounded-lg">
                   {searchResult.status === "PENDING"
-                    ? "Aguardando resposta"
+                    ? t("searchFriend.pending")
                     : searchResult.status === "ACCEPTED"
-                    ? "Já são amigos"
-                    : "Solicitação rejeitada"}
+                    ? t("searchFriend.accepted")
+                    : t("searchFriend.rejected")}
                 </div>
               ) : (
                 <button
@@ -125,7 +129,9 @@ export function SearchFriend() {
                   } text-white rounded-md`}
                   disabled={isPending}
                 >
-                  {isPending ? "Aguardando" : "Adicionar"}
+                  {isPending
+                    ? t("searchFriend.pending")
+                    : t("searchFriend.addFriend")}
                 </button>
               )}
             </div>

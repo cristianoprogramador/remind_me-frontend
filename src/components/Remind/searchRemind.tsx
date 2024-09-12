@@ -1,6 +1,7 @@
 import CategorySelect from "@/components/categorySelect";
 import { CategoryOption } from "@/types";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export function SearchRemind({
   onSearch,
@@ -10,6 +11,7 @@ export function SearchRemind({
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [selectedCategory, setSelectedCategory] =
     useState<CategoryOption | null>(null);
+  const { t } = useTranslation();
 
   const handleCategoryChange = (category: CategoryOption | null) => {
     setSelectedCategory(category);
@@ -26,7 +28,7 @@ export function SearchRemind({
         <input
           type="text"
           className="w-full bg-transparent pl-5 py-4 text-theme-text-color outline-none"
-          placeholder="Buscar por..."
+          placeholder={t("searchRemind.placeholder")}
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
@@ -41,7 +43,7 @@ export function SearchRemind({
             className="h-10 w-28 bg-gray-200 text-slate-800 transition-all duration-400 ease-in-out transform hover:bg-blue-600 hover:text-white rounded-md mr-4"
             onClick={handleSearch}
           >
-            Buscar
+            {t("searchRemind.searchButton")}
           </button>
         </div>
       </div>

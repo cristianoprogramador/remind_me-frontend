@@ -6,6 +6,7 @@ import { useSession } from "next-auth/react";
 import { Annotation, UserProps } from "@/types";
 import RemindList from "@/components/Remind/remindList";
 import { Pagination } from "@/components/pagination";
+import { useTranslation } from "react-i18next";
 
 export default function HomePage() {
   const { data: session } = useSession();
@@ -14,6 +15,7 @@ export default function HomePage() {
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(5);
   const [totalCount, setTotalCount] = useState(0);
+  const { t } = useTranslation();
 
   const fetchAnnotations = async () => {
     if (!session) return;
@@ -60,12 +62,12 @@ export default function HomePage() {
   return (
     <main className="flex flex-col justify-start items-center pt-8 w-full">
       <div className="max-w-[720px] w-[90%] flex flex-col justify-center items-center">
-        <h1 className="text-2xl font-bold mb-6 text-white">
-          Próximos Lembretes
+        <h1 className="text-2xl font-bold mb-6 text-theme-text-color">
+          {t("homepage.title")}
         </h1>
         <CreateRemind onCreate={addAnnotation} />
         {loading ? (
-          <p className="text-white">Carregando lembretes...</p>
+          <p className="text-theme-text-color">{t("homepage.loading")}</p>
         ) : (
           <>
             <RemindList

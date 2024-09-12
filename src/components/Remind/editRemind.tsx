@@ -5,6 +5,7 @@ import UserSelect from "../userSelect";
 import CategorySelect from "../categorySelect";
 import { Annotation, CategoryOption, UserProps } from "@/types";
 import { useSession } from "next-auth/react";
+import { useTranslation } from "react-i18next";
 
 export type EditRemindProps = {
   modalInfo: boolean;
@@ -20,6 +21,7 @@ export const EditRemind = ({
   onUpdateAnnotation,
 }: EditRemindProps) => {
   const { data: session } = useSession();
+  const { t } = useTranslation();
 
   const localRemindAt = new Date(annotation.remindAt);
   const fixedUserId = (session?.user as UserProps)?.id;
@@ -72,11 +74,11 @@ export const EditRemind = ({
     <Modal isOpen={modalInfo} setIsOpen={setModalInfo}>
       <ModalHeader
         onClose={() => setModalInfo(false)}
-        title="Alterar Lembrete"
+        title={t("editRemind.title")}
       />
       <div className="w-full mt-3 flex flex-col space-y-1.5 gap-1 rounded-lg items-center">
         <div className="flex flex-row justify-between gap-3">
-          <div className="w-full">Data para Notificação:</div>
+          <div className="w-full">{t("editRemind.notificationDate")}:</div>
           <div className="relative">
             <input
               type="datetime-local"
@@ -106,7 +108,7 @@ export const EditRemind = ({
         <div className="flex w-full justify-center items-center">
           <textarea
             className="w-full bg-transparent px-5 py-3 outline-none border rounded-md"
-            placeholder="Eu preciso lembrar de..."
+            placeholder={t("editRemind.placeholder")}
             rows={3}
             value={content}
             onChange={(e) => setContent(e.target.value)}
@@ -117,7 +119,7 @@ export const EditRemind = ({
           className="px-3 py-1 bg-gray-200 text-slate-800 transition-all duration-400 ease-in-out transform hover:bg-blue-600 hover:text-white rounded-md mr-4"
           onClick={handleSave}
         >
-          Salvar
+          {t("editRemind.save")}
         </button>
       </div>
     </Modal>

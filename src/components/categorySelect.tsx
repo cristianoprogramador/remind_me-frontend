@@ -3,7 +3,7 @@ import CreatableSelect from "react-select/creatable";
 import { useSession } from "next-auth/react";
 import { CategoryOption, UserProps } from "@/types";
 import { useTheme } from "@/app/theme-context";
-
+import { useTranslation } from "react-i18next";
 
 interface CategorySelectProps {
   selectedCategory: CategoryOption | null;
@@ -18,6 +18,7 @@ const CategorySelect: React.FC<CategorySelectProps> = ({
   const [categories, setCategories] = useState<CategoryOption[]>([]);
   const [loading, setLoading] = useState(true);
   const { theme } = useTheme();
+  const { t } = useTranslation();
 
   const handleChange = (newValue: CategoryOption | null) => {
     onChange(newValue);
@@ -37,7 +38,7 @@ const CategorySelect: React.FC<CategorySelectProps> = ({
       });
 
       if (!res.ok) {
-        throw new Error("Failed to create category");
+        throw new Error(t("categorySelect.createFailed"));
       }
 
       const newCategory = {
@@ -48,7 +49,7 @@ const CategorySelect: React.FC<CategorySelectProps> = ({
       setCategories((prevCategories) => [...prevCategories, newCategory]);
       handleChange(newCategory);
     } catch (error) {
-      console.error("Error creating category:", error);
+      console.error(t("categorySelect.createError"), error);
     }
   };
 
@@ -87,7 +88,8 @@ const CategorySelect: React.FC<CategorySelectProps> = ({
     }),
   };
 
-  const formatCreateLabel = (inputValue: string) => `Criar "${inputValue}"`;
+  const formatCreateLabel = (inputValue: string) =>
+    t("categorySelect.create", { value: inputValue });
 
   useEffect(() => {
     async function fetchCategories() {
@@ -102,7 +104,7 @@ const CategorySelect: React.FC<CategorySelectProps> = ({
         });
 
         if (!res.ok) {
-          throw new Error("Failed to fetch categories");
+          throw new Error(t("categorySelect.fetchFailed"));
         }
 
         const data = await res.json();
@@ -115,7 +117,7 @@ const CategorySelect: React.FC<CategorySelectProps> = ({
 
         setCategories(mappedCategories);
       } catch (error) {
-        console.error("Error fetching categories:", error);
+        console.error(t("categorySelect.fetchError"), error);
       } finally {
         setLoading(false);
       }
@@ -135,10 +137,10 @@ const CategorySelect: React.FC<CategorySelectProps> = ({
       styles={customStyles}
       onChange={handleChange}
       onCreateOption={handleCreate}
-      placeholder="Categoria"
+      placeholder={t("categorySelect.placeholder")}
       formatCreateLabel={formatCreateLabel}
       noOptionsMessage={() =>
-        loading ? "Carregando categorias..." : "Nenhuma categoria encontrada"
+        loading ? t("categorySelect.loading") : t("categorySelect.noCategories")
       }
     />
   );

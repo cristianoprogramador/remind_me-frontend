@@ -3,6 +3,7 @@ import { Friend, UserProps } from "@/types";
 import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
 import Select, { MultiValue, components } from "react-select";
+import { useTranslation } from "react-i18next";
 
 interface UserSelectProps {
   selectedUserIds: string[];
@@ -16,6 +17,7 @@ const UserSelect: React.FC<UserSelectProps> = ({
   fixedUserId,
 }) => {
   const { data: session } = useSession();
+  const { t } = useTranslation(); // Hook para tradução
   const [friends, setFriends] = useState<Friend[]>([]);
   const [loading, setLoading] = useState(true);
   const { theme } = useTheme();
@@ -38,7 +40,7 @@ const UserSelect: React.FC<UserSelectProps> = ({
         );
 
         if (!res.ok) {
-          throw new Error("Failed to fetch friends");
+          throw new Error(t("userSelect.fetchFailed"));
         }
 
         const data = await res.json();
@@ -77,7 +79,7 @@ const UserSelect: React.FC<UserSelectProps> = ({
         // Garante que o usuário logado está sempre selecionado
         onChange([loggedInUser.uuid, ...selectedUserIds]);
       } catch (error) {
-        console.error("Error fetching friends:", error);
+        console.error(t("userSelect.fetchError"), error);
       } finally {
         setLoading(false);
       }
@@ -181,7 +183,9 @@ const UserSelect: React.FC<UserSelectProps> = ({
       styles={customStyles}
       isClearable={false}
       isMulti={true}
-      placeholder={loading ? "Carregando amigos..." : "Selecione usuários"}
+      placeholder={
+        loading ? t("userSelect.loading") : t("userSelect.placeholder")
+      }
       components={{ MultiValue }}
       isLoading={loading}
     />

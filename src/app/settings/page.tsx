@@ -1,20 +1,24 @@
-// src/app/settings/page.tsx
 "use client";
 
-import { ToolTip } from "@/components/tooltip";
 import { UserProps } from "@/types";
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
-import { IoIosInformationCircleOutline } from "react-icons/io";
+import React from "react";
 import { toast } from "react-toastify";
 import { useTheme } from "../theme-context";
+import { useTranslation } from "react-i18next";
+import { useLanguage } from "@/context/i18nContext";
 
 export default function SettingsPage() {
   const { theme, toggleTheme } = useTheme();
-  const [language, setLanguage] = useState("pt-BR");
   const { data: session } = useSession();
   const router = useRouter();
+  const { t } = useTranslation();
+  const { language, changeLanguage } = useLanguage();
+
+  const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    changeLanguage(e.target.value);
+  };
 
   const handleDeleteAccount = async () => {
     if (!session) return;
@@ -34,16 +38,16 @@ export default function SettingsPage() {
       );
 
       if (!res.ok) {
-        throw new Error("Falha ao excluir o usuário");
+        throw new Error(t("settingsPage.deleteAccountError"));
       }
 
-      toast.success("Conta excluída com sucesso.");
+      toast.success(t("settingsPage.deleteAccountSuccess"));
 
       signOut({ redirect: false });
       router.push("/login");
     } catch (error) {
-      console.error("Erro ao excluir usuário:", error);
-      toast.error("Erro ao excluir conta.");
+      console.error(t("settingsPage.deleteAccountError"), error);
+      toast.error(t("settingsPage.deleteAccountError"));
     }
   };
 
@@ -63,45 +67,49 @@ export default function SettingsPage() {
       <div className="w-[90%] max-w-[440px] bg-gray-200 flex flex-col justify-center items-center border rounded-lg">
         <div className="w-[90%] px-4">
           <div className="text-center py-5 font-semibold text-xl text-gray-800">
-            Configurações
+            {t("settingsPage.title")}
           </div>
 
           {/* Tema */}
           <div className="w-full max-w-md mb-6 flex flex-row items-center justify-between gap-3">
-            <label className="text-gray-700">Tema</label>
+            <label className="text-gray-700">
+              {t("settingsPage.themeLabel")}
+            </label>
             <select
               onChange={handleThemeChange}
               value={theme}
               className="mt-2 p-3 bg-gray-300 rounded-lg"
             >
-              <option value="light">Modo Claro</option>
-              <option value="dark">Modo Escuro</option>
+              <option value="light">{t("settingsPage.lightMode")}</option>
+              <option value="dark">{t("settingsPage.darkMode")}</option>
             </select>
           </div>
 
           {/* Idioma */}
           <div className="w-full max-w-md mb-6 flex flex-row items-center justify-between gap-3">
-            <label className="text-gray-700">Idioma</label>
+            <label className="text-gray-700">
+              {t("settingsPage.languageLabel")}
+            </label>
             <select
               value={language}
-              onChange={(e) => setLanguage(e.target.value)}
+              onChange={handleLanguageChange}
               className="mt-2 p-3 bg-gray-300 rounded-lg"
             >
-              <option value="pt-BR">Português (Brasil)</option>
-              <option value="en-US">Inglês (EUA)</option>
+              <option value="pt-BR">{t("settingsPage.portuguese")}</option>
+              <option value="en-US">{t("settingsPage.english")}</option>
             </select>
           </div>
 
           {/* Gerenciar Assinatura */}
           <div className="w-full max-w-md mb-6 flex flex-row items-center justify-center gap-3">
             <label className="text-gray-700 whitespace-nowrap w-full text-start">
-              Gerenciar Assinatura
+              {t("settingsPage.manageSubscription")}
             </label>
             <button
               className="w-full mt-2 py-3 bg-gray-400 text-white rounded-lg cursor-not-allowed"
               disabled
             >
-              Em Breve
+              {t("settingsPage.comingSoon")}
             </button>
           </div>
 
@@ -111,7 +119,7 @@ export default function SettingsPage() {
               className="w-full py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-700"
               onClick={handleReportProblem}
             >
-              Reportar Problema
+              {t("settingsPage.reportProblem")}
             </button>
           </div>
 
@@ -121,7 +129,7 @@ export default function SettingsPage() {
               className="w-full py-3 bg-red-500 text-white rounded-lg hover:bg-red-700"
               onClick={handleDeleteAccount}
             >
-              Excluir Conta
+              {t("settingsPage.deleteAccount")}
             </button>
           </div>
         </div>

@@ -12,6 +12,7 @@ import { signOut } from "next-auth/react";
 import { FaUserFriends } from "react-icons/fa";
 import { useTheme } from "@/app/theme-context";
 import { GoMoon } from "react-icons/go";
+import { useTranslation } from "react-i18next";
 
 interface MainLayoutProps {
   children: ReactNode;
@@ -26,6 +27,7 @@ interface MenuItemProps {
 
 export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   const { theme, toggleTheme } = useTheme();
+  const { t } = useTranslation();
 
   const handleLogout = () => {
     if (window.confirm("Tem certeza que deseja sair?")) {
@@ -97,37 +99,37 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
           <div className="flex flex-row gap-2 justify-center items-center mt-7">
             <Image src={"/logo.png"} alt="logo" width={40} height={100} />
             <div className="p-5 text-xl font-semibold select-none hidden lg:flex">
-              Remind-Me
+              {t("mainLayout.title")}
             </div>
           </div>
           <ul className="mt-8">
             <MenuItemSidebar
               path="/"
-              title="Página Inicial"
+              title={t("mainLayout.home")}
               icon={<TfiWrite size={20} />}
             />
             <MenuItemSidebar
               path="/search"
-              title="Buscar"
+              title={t("mainLayout.search")}
               icon={<MdManageSearch size={20} />}
             />
             <MenuItemSidebar
               path="/profile"
-              title="Perfil"
+              title={t("mainLayout.profile")}
               icon={<CgProfile size={20} />}
             />
             <MenuItemSidebar
               path="/friends"
-              title="Amigos"
+              title={t("mainLayout.friends")}
               icon={<FaUserFriends size={20} />}
             />
             <MenuItemSidebar
               path="/settings"
-              title="Configurações"
+              title={t("mainLayout.settings")}
               icon={<LuSettings size={20} />}
             />
             <MenuItemSidebar
-              title="Logout"
+              title={t("mainLayout.logout")}
               icon={<FiLogOut size={20} />}
               onClick={handleLogout}
             />
@@ -151,41 +153,39 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
           </div>
         </aside>
 
-        {/* Conteúdo principal */}
         <div className="flex-1 flex flex-col ">
           <div
-            className={`md:hidden flex flex-row justify-around  border-b ${
+            className={`md:hidden flex flex-row justify-around border-b ${
               theme === "dark" ? "text-white" : "text-black"
-            }
-      }`}
+            }`}
           >
             <MenuItemHeader
               path="/"
-              title="Página Inicial"
+              title={t("mainLayout.home")}
               icon={<TfiWrite size={20} />}
             />
             <MenuItemHeader
               path="/search"
-              title="Buscar"
+              title={t("mainLayout.search")}
               icon={<MdManageSearch size={20} />}
             />
             <MenuItemHeader
               path="/profile"
-              title="Perfil"
+              title={t("mainLayout.profile")}
               icon={<CgProfile size={20} />}
             />
             <MenuItemHeader
               path="/friends"
-              title="Amigos"
+              title={t("mainLayout.friends")}
               icon={<FaUserFriends size={20} />}
             />
             <MenuItemHeader
               path="/settings"
-              title="Configurações"
+              title={t("mainLayout.settings")}
               icon={<LuSettings size={20} />}
             />
             <MenuItemHeader
-              title="Logout"
+              title={t("mainLayout.logout")}
               icon={<FiLogOut size={20} />}
               onClick={handleLogout}
             />

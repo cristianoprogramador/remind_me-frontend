@@ -1,5 +1,3 @@
-// src\app\search\page.tsx
-
 "use client";
 
 import { Pagination } from "@/components/pagination";
@@ -8,9 +6,11 @@ import { SearchRemind } from "@/components/Remind/searchRemind";
 import { Annotation, UserProps } from "@/types";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export default function SearchPage() {
   const { data: session } = useSession();
+  const { t } = useTranslation();
   const [annotations, setAnnotations] = useState<Annotation[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
@@ -36,14 +36,14 @@ export default function SearchPage() {
       );
 
       if (!res.ok) {
-        throw new Error("Failed to fetch annotations");
+        throw new Error(t("searchPage.fetchError"));
       }
 
       const { annotations, totalCount } = await res.json();
       setAnnotations(annotations);
       setTotalCount(totalCount);
     } catch (error) {
-      console.error("Error fetching annotations:", error);
+      console.error(t("searchPage.fetchError"), error);
     } finally {
       setLoading(false);
     }
@@ -66,11 +66,13 @@ export default function SearchPage() {
   return (
     <main className="flex flex-col justify-start items-center pt-8 w-full">
       <div className="max-w-[720px] w-[90%] flex flex-col justify-center items-center">
-        <h1 className="text-2xl font-bold mb-6 text-white">Buscar Lembrete</h1>
+        <h1 className="text-2xl font-bold mb-6 text-theme-text-color">
+          {t("searchPage.title")}
+        </h1>
         <SearchRemind onSearch={handleSearch} />
 
         {loading ? (
-          <p className="text-text-color">Carregando lembretes...</p>
+          <p className="text-text-color">{t("searchPage.loading")}</p>
         ) : (
           <>
             <RemindList

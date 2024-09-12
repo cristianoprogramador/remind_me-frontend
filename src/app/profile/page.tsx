@@ -5,6 +5,7 @@ import { ToolTip } from "@/components/tooltip";
 import { UserProps } from "@/types";
 import { useSession } from "next-auth/react";
 import React, { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { IoIosInformationCircleOutline } from "react-icons/io";
 import { toast } from "react-toastify";
 
@@ -28,11 +29,11 @@ export default function ProfilePage() {
     useState(false);
   const [notificationExists, setNotificationExists] = useState(false);
   const [loading, setLoading] = useState(true);
+  const { t } = useTranslation();
 
   const handleUpdateProfile = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Verifique se os valores foram alterados antes de fazer a chamada de API
     const hasNameChanged = name !== originalName;
     const hasPhoneChanged = phone !== originalPhone;
     const hasEmailNotificationsChanged =
@@ -43,7 +44,6 @@ export default function ProfilePage() {
       notificationsEnabled !== originalNotificationsEnabled;
     const hasWeeklySummaryChanged = weeklySummary !== originalWeeklySummary;
 
-    // Se nenhuma alteração foi feita, não faça a chamada de API
     if (
       !hasNameChanged &&
       !hasPhoneChanged &&
@@ -52,12 +52,11 @@ export default function ProfilePage() {
       !hasNotificationsEnabledChanged &&
       !hasWeeklySummaryChanged
     ) {
-      toast.warning("Nenhuma alteração detectada.");
+      toast.warning(t("profilePage.noChanges"));
       return;
     }
 
     try {
-      // Atualiza o nome do usuário se foi alterado
       if (hasNameChanged) {
         const resName = await fetch(
           `${process.env.NEXT_PUBLIC_API_URL}/user/name`,
@@ -72,7 +71,7 @@ export default function ProfilePage() {
         );
 
         if (!resName.ok) {
-          throw new Error("Failed to update user name");
+          throw new Error(t("profilePage.updateNameFailed")); // Tradução
         }
 
         await update({
@@ -82,10 +81,9 @@ export default function ProfilePage() {
           },
         });
 
-        toast.success("Nome atualizado com sucesso!");
+        toast.success(t("profilePage.nameUpdated")); // Tradução
       }
 
-      // Atualiza ou cria as configurações de notificação se alguma delas foi alterada
       if (
         hasPhoneChanged ||
         hasEmailNotificationsChanged ||
@@ -99,7 +97,7 @@ export default function ProfilePage() {
 
         const method = notificationExists ? "PUT" : "POST";
 
-        console.log(method)
+        console.log(method);
 
         const resNotification = await fetch(notificationEndpoint, {
           method,
@@ -116,14 +114,14 @@ export default function ProfilePage() {
         });
 
         if (!resNotification.ok) {
-          throw new Error("Failed to update notification settings");
+          throw new Error(t("profilePage.updateNotificationFailed")); // Tradução
         }
 
-        toast.success("Configurações de notificação atualizadas com sucesso!");
+        toast.success(t("profilePage.notificationUpdated")); // Tradução
       }
     } catch (error) {
-      console.error("Erro ao atualizar perfil:", error);
-      toast.error("Erro ao atualizar perfil");
+      console.error(t("profilePage.updateError"), error); // Tradução
+      toast.error(t("profilePage.updateError")); // Tradução
     }
   };
 
@@ -145,7 +143,6 @@ export default function ProfilePage() {
         console.log(data);
 
         if (!data.notificationsEmpty) {
-
           setNotificationsEnabled(data.emailNotify || data.phoneNotify);
           setEmailNotifications(data.emailNotify);
           setPhoneNotifications(data.phoneNotify);
@@ -163,7 +160,7 @@ export default function ProfilePage() {
           setNotificationExists(false);
         }
       } catch (error) {
-        console.error("Erro ao buscar configurações de notificação:", error);
+        console.error(t("profilePage.fetchNotificationError"), error);
         setNotificationExists(false);
       } finally {
         setLoading(false);
@@ -176,7 +173,7 @@ export default function ProfilePage() {
   }, [session]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div>{t("profilePage.loading")}</div>;
   }
 
   return (
@@ -184,12 +181,14 @@ export default function ProfilePage() {
       <div className="w-[90%] max-w-[400px] bg-gray-200 flex flex-col justify-center items-center border rounded-lg">
         <div className="w-[90%] px-4">
           <div className="text-center py-5 font-semibold text-xl text-gray-800">
-            Página de Perfil
+            {t("profilePage.title")}
           </div>
           <form onSubmit={handleUpdateProfile}>
             <div className="flex flex-col gap-4 py-5">
               <div className="flex flex-row justify-between items-center w-full border border-gray-500 rounded-lg p-4">
-                <label className="mb-1 text-gray-700">Nome</label>
+                <label className="mb-1 text-gray-700">
+                  {t("profilePage.nameLabel")}
+                </label>
                 <input
                   type="text"
                   value={name}
@@ -199,7 +198,9 @@ export default function ProfilePage() {
               </div>
 
               <div className="flex flex-col w-full border border-gray-500 rounded-lg p-4">
-                <label className="mb-1 text-gray-700">E-mail</label>
+                <label className="mb-1 text-gray-700">
+                  {t("profilePage.emailLabel")}
+                </label>
                 <div className="text-gray-700">{email}</div>
                 <div className="flex justify-between items-center mt-2">
                   <label
@@ -207,7 +208,7 @@ export default function ProfilePage() {
                       notificationsEnabled ? "text-gray-600" : "text-gray-400"
                     }`}
                   >
-                    Notificações por e-mail
+                    {t("profilePage.emailNotificationsLabel")}
                   </label>
                   <input
                     type="checkbox"
@@ -220,7 +221,9 @@ export default function ProfilePage() {
               </div>
 
               <div className="flex flex-col w-full border border-gray-500 rounded-lg p-4">
-                <label className="mb-1 text-gray-700">Telefone</label>
+                <label className="mb-1 text-gray-700">
+                  {t("profilePage.phoneLabel")}
+                </label>
                 <PhoneInput
                   value={phone}
                   onChange={setPhone}
@@ -232,7 +235,7 @@ export default function ProfilePage() {
                       notificationsEnabled ? "text-gray-600" : "text-gray-400"
                     }`}
                   >
-                    Notificações por SMS
+                    {t("profilePage.phoneNotificationsLabel")}
                   </label>
                   <input
                     type="checkbox"
@@ -246,7 +249,7 @@ export default function ProfilePage() {
 
               <div className="flex justify-between items-center">
                 <label className="text-sm text-gray-600 mr-2">
-                  Ativar Notificações
+                  {t("profilePage.enableNotificationsLabel")}
                 </label>
                 <input
                   type="checkbox"
@@ -259,11 +262,11 @@ export default function ProfilePage() {
               {emailNotifications && (
                 <div className="flex justify-between items-center">
                   <div className="flex flex-row items-center gap-2">
-                    <label className="text-gray-700">Resumo Semanal</label>
+                    <label className="text-gray-700">
+                      {t("profilePage.weeklySummaryLabel")}
+                    </label>
                     <ToolTip
-                      content={
-                        "Resumo sobre lembretes da próxima semana por e-mail"
-                      }
+                      content={t("profilePage.weeklySummaryTooltip")}
                       className="text-xs"
                     >
                       <IoIosInformationCircleOutline size={20} color="red" />
@@ -282,7 +285,7 @@ export default function ProfilePage() {
                 type="submit"
                 className="px-4 py-2 mt-5 bg-green-500 text-white rounded-md hover:bg-green-700"
               >
-                Atualizar
+                {t("profilePage.updateButton")}
               </button>
             </div>
           </form>

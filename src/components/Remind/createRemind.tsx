@@ -3,7 +3,7 @@ import UserSelect from "@/components/userSelect";
 import { Annotation, CategoryOption, UserProps } from "@/types";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
-import { CiImageOn } from "react-icons/ci";
+import { useTranslation } from "react-i18next";
 import { FiCalendar } from "react-icons/fi";
 import { toast } from "react-toastify";
 
@@ -15,6 +15,7 @@ export function CreateRemind({ onCreate }: CreateRemindProps) {
   const { data: session } = useSession();
   const [content, setContent] = useState<string>("");
   const [remindAt, setRemindAt] = useState<string>("");
+  const { t } = useTranslation();
 
   const [selectedUserIds, setSelectedUserIds] = useState<string[]>([]);
   const fixedUserId = (session?.user as UserProps)?.id;
@@ -31,7 +32,7 @@ export function CreateRemind({ onCreate }: CreateRemindProps) {
 
   const handleCreateAnnotation = async () => {
     if (!content || !remindAt) {
-      toast.warning("Por favor, preencha todos os campos obrigatórios.");
+      toast.warning(t("createRemind.fillAllFields"));
       return;
     }
 
@@ -56,7 +57,7 @@ export function CreateRemind({ onCreate }: CreateRemindProps) {
       );
 
       if (!res.ok) {
-        throw new Error("Falha ao criar a anotação");
+        throw new Error(t("createRemind.createFailed"));
       }
 
       const newAnnotation = await res.json();
@@ -68,10 +69,10 @@ export function CreateRemind({ onCreate }: CreateRemindProps) {
       setSelectedCategory(null);
       setSelectedUserIds([fixedUserId]);
 
-      toast.success("Lembrete criado com sucesso!");
+      toast.success(t("createRemind.createSuccess"));
     } catch (error) {
-      console.error("Erro ao criar anotação:", error);
-      toast.error("Erro ao criar anotação");
+      console.error(t("createRemind.createError"), error);
+      toast.error(t("createRemind.createError"));
     }
   };
 
@@ -80,7 +81,7 @@ export function CreateRemind({ onCreate }: CreateRemindProps) {
       <div>
         <textarea
           className="w-full bg-transparent px-5 py-3 text-theme-text-color outline-none"
-          placeholder="Eu preciso lembrar de..."
+          placeholder={t("createRemind.placeholder")}
           rows={1}
           value={content}
           onChange={(e) => setContent(e.target.value)}
@@ -121,7 +122,7 @@ export function CreateRemind({ onCreate }: CreateRemindProps) {
               className="md:hidden flex bg-gray-200 text-slate-800 transition-all duration-400 ease-in-out transform hover:bg-blue-600 hover:text-white rounded-md w-20 h-7 items-center justify-center text-center"
               onClick={handleCreateAnnotation}
             >
-              Criar
+              {t("createRemind.create")}
             </div>
           </div>
         </div>
@@ -129,7 +130,7 @@ export function CreateRemind({ onCreate }: CreateRemindProps) {
           className="md:flex hidden px-3 py-1 bg-gray-200 text-slate-800 transition-all duration-400 ease-in-out transform hover:bg-blue-600 hover:text-white rounded-md mr-4"
           onClick={handleCreateAnnotation}
         >
-          Criar
+          {t("createRemind.create")}
         </button>
       </div>
     </div>

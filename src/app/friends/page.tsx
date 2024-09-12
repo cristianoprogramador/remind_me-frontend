@@ -7,6 +7,7 @@ import { FaUser } from "react-icons/fa";
 import { SearchFriend } from "@/components/searchFriend";
 import { Friend, Friendship, UserProps } from "@/types";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 export default function FriendsPage() {
   const { data: session } = useSession();
@@ -14,6 +15,7 @@ export default function FriendsPage() {
   const [sentRequests, setSentRequests] = useState<Friend[]>([]);
   const [friends, setFriends] = useState<Friend[]>([]);
   const [loading, setLoading] = useState(true);
+  const { t } = useTranslation();
 
   useEffect(() => {
     async function fetchFriendRequests() {
@@ -32,7 +34,7 @@ export default function FriendsPage() {
         );
 
         if (!res.ok) {
-          throw new Error("Failed to fetch friend requests");
+          throw new Error(t("friendsPage.fetchFriendRequestsError"));
         }
 
         const { receivedRequests, sentRequests } = await res.json();
@@ -76,7 +78,7 @@ export default function FriendsPage() {
         );
 
         if (!res.ok) {
-          throw new Error("Failed to fetch friends");
+          throw new Error(t("friendsPage.fetchFriendsError"));
         }
 
         const data: Friendship[] = await res.json();
@@ -113,10 +115,10 @@ export default function FriendsPage() {
       );
 
       if (!res.ok) {
-        throw new Error("Failed to unfriend");
+        throw new Error(t("friendsPage.unfriendError"));
       }
 
-      toast.error("Amizade desfeita com sucesso!");
+      toast.error(t("friendsPage.unfriendSuccess"));
 
       setFriends((prevFriends) =>
         prevFriends.filter((friend) => friend.uuid !== friendId)
@@ -127,13 +129,15 @@ export default function FriendsPage() {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div>{t("friendsPage.loading")}</div>;
   }
 
   return (
     <div className="flex flex-col justify-center pt-8 gap-10 items-center h-full">
       <div className="w-[90%] max-w-[500px] flex flex-col justify-center items-center">
-        <h1 className="text-2xl font-bold mb-6 text-theme-text-color">Amigos</h1>
+        <h1 className="text-2xl font-bold mb-6 text-theme-text-color">
+          {t("friendsPage.title")}
+        </h1>
 
         <SearchFriend />
 
@@ -167,7 +171,7 @@ export default function FriendsPage() {
                   className="ml-auto h-10 px-4 bg-gray-200 text-slate-800 transition-all duration-400 ease-in-out transform hover:bg-red-600 hover:text-white rounded-md text-sm"
                   onClick={() => handleUnfriend(friend.uuid)}
                 >
-                  Excluir
+                 {t("friendsPage.unfriendButton")}
                 </button>
               </div>
             </div>
@@ -180,7 +184,7 @@ export default function FriendsPage() {
           {receivedRequests.map((request) => (
             <div key={request.uuid}>
               <h2 className="text-xl font-bold mb-4 text-theme-text-color">
-                Solicitações de Amizade Recebidas
+              {t("friendsPage.receivedRequests")}
               </h2>
               <div className="border border-theme-border-color rounded-md p-4 flex justify-between items-center bg-white">
                 <div className="flex items-center gap-4">
@@ -207,13 +211,13 @@ export default function FriendsPage() {
                     className="h-10 w-24 md:w-32 bg-green-500 text-white rounded-md hover:bg-green-600"
                     onClick={() => handleResponse(request.uuid, true)}
                   >
-                    Aceitar
+                    {t("friendsPage.accept")}
                   </button>
                   <button
                     className="h-10 w-24 md:w-32 bg-red-500 text-white rounded-md hover:bg-red-600"
                     onClick={() => handleResponse(request.uuid, false)}
                   >
-                    Rejeitar
+                    {t("friendsPage.reject")}
                   </button>
                 </div>
               </div>
@@ -227,7 +231,7 @@ export default function FriendsPage() {
           {sentRequests.map((request) => (
             <div key={request.uuid}>
               <h2 className="text-xl font-bold mb-4 text-white">
-                Solicitações de Amizade Enviadas
+              {t("friendsPage.sentRequests")}
               </h2>
 
               <div className="border border-theme-border-color rounded-md p-4 flex justify-between items-center bg-white">
@@ -246,11 +250,12 @@ export default function FriendsPage() {
                   <div>
                     <h2 className="text-lg font-semibold">{request.name}</h2>
                     <p className="text-gray-600 md:text-base text-xs break-all">
-                    {request.email}</p>
+                      {request.email}
+                    </p>
                   </div>
                 </div>
                 <div className="text-sm text-gray-500 text-center">
-                  Aguardando resposta...
+                {t("friendsPage.awaitingResponse")}
                 </div>
               </div>
             </div>
@@ -286,7 +291,7 @@ export default function FriendsPage() {
           prevRequests.filter((request) => request.uuid !== requestId)
         );
       } else {
-        console.error("Failed to respond to friend request");
+        console.error(t("friendsPage.respondRequestError"));
       }
     } catch (error) {
       console.error(error);

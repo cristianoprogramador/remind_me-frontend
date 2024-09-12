@@ -1,0 +1,162 @@
+{
+  "mainLayout": {
+    "title": "Remind-Me",
+    "home": "Página Inicial",
+    "search": "Buscar",
+    "profile": "Perfil",
+    "friends": "Amigos",
+    "settings": "Configurações",
+    "logout": "Sair",
+    "logoutConfirm": "Tem certeza que deseja sair?"
+  },
+  "homepage": {
+    "title": "Próximos Lembretes",
+    "loading": "Carregando lembretes..."
+  },
+  "createRemind": {
+    "placeholder": "Eu preciso lembrar de...",
+    "fillAllFields": "Por favor, preencha todos os campos obrigatórios.",
+    "create": "Criar",
+    "createSuccess": "Lembrete criado com sucesso!",
+    "createFailed": "Falha ao criar a anotação",
+    "createError": "Erro ao criar anotação"
+  },
+  "categorySelect": {
+    "placeholder": "Categoria",
+    "create": "Criar \"{value}\"",
+    "createFailed": "Falha ao criar a categoria",
+    "createError": "Erro ao criar a categoria",
+    "fetchFailed": "Falha ao buscar categorias",
+    "fetchError": "Erro ao buscar categorias",
+    "loading": "Carregando categorias...",
+    "noCategories": "Nenhuma categoria encontrada"
+  },
+  "userSelect": {
+    "loading": "Carregando amigos...",
+    "placeholder": "Selecione usuários",
+    "fetchFailed": "Falha ao buscar amigos",
+    "fetchError": "Erro ao buscar amigos"
+  },
+  "remindList": {
+    "createdAt": "Criado em",
+    "remindAt": "Lembrar em",
+    "updatedAt": "Editado em",
+    "category": "Categoria",
+    "createdBy": "Criado por",
+    "participants": "Participantes",
+    "updateFailed": "Falha ao atualizar a anotação",
+    "updateError": "Erro ao atualizar anotação"
+  },
+  "editRemind": {
+    "title": "Alterar Lembrete",
+    "notificationDate": "Data para Notificação",
+    "placeholder": "Eu preciso lembrar de...",
+    "save": "Salvar"
+  },
+  "pagination": {
+    "previous": "Anterior",
+    "next": "Próxima",
+    "page": "Página",
+    "of": "de"
+  },
+  "loginPage": {
+    "title": "Acesse a conta!",
+    "welcomeBack": "Seja bem-vindo de volta",
+    "emailLabel": "Email",
+    "emailPlaceholder": "Digite seu email",
+    "passwordLabel": "Senha",
+    "passwordPlaceholder": "Digite sua senha",
+    "loginButton": "Entrar",
+    "orSignInWith": "Entre com",
+    "noAccount": "Ainda não tem conta?",
+    "signupNow": "Cadastre-se agora!"
+  },
+  "profilePage": {
+    "title": "Página de Perfil",
+    "nameLabel": "Nome",
+    "emailLabel": "E-mail",
+    "emailNotificationsLabel": "Notificações por e-mail",
+    "phoneLabel": "Telefone",
+    "phoneNotificationsLabel": "Notificações por SMS",
+    "enableNotificationsLabel": "Ativar Notificações",
+    "weeklySummaryLabel": "Resumo Semanal",
+    "weeklySummaryTooltip": "Resumo sobre lembretes da próxima semana por e-mail",
+    "updateButton": "Atualizar",
+    "noChanges": "Nenhuma alteração detectada.",
+    "nameUpdated": "Nome atualizado com sucesso!",
+    "updateNameFailed": "Falha ao atualizar o nome do usuário",
+    "notificationUpdated": "Configurações de notificação atualizadas com sucesso!",
+    "updateNotificationFailed": "Falha ao atualizar as configurações de notificação",
+    "updateError": "Erro ao atualizar perfil",
+    "fetchNotificationError": "Erro ao buscar configurações de notificação",
+    "loading": "Carregando..."
+  },
+  "searchRemind": {
+    "placeholder": "Buscar por...",
+    "searchButton": "Buscar"
+  },
+  "friendsPage": {
+    "title": "Amigos",
+    "receivedRequests": "Solicitações de Amizade Recebidas",
+    "sentRequests": "Solicitações de Amizade Enviadas",
+    "unfriendButton": "Excluir",
+    "accept": "Aceitar",
+    "reject": "Rejeitar",
+    "awaitingResponse": "Aguardando resposta...",
+    "loading": "Carregando...",
+    "fetchFriendRequestsError": "Erro ao buscar solicitações de amizade",
+    "fetchFriendsError": "Erro ao buscar amigos",
+    "unfriendError": "Falha ao desfazer a amizade",
+    "unfriendSuccess": "Amizade desfeita com sucesso!",
+    "respondRequestError": "Falha ao responder à solicitação de amizade"
+  },
+  "signupPage": {
+    "title": "Crie sua conta!",
+    "subtitle": "Junte-se a nós e comece a usar o site!",
+    "nameLabel": "Nome",
+    "namePlaceholder": "Digite seu nome",
+    "emailLabel": "Email",
+    "emailPlaceholder": "Digite seu email",
+    "passwordLabel": "Senha",
+    "passwordPlaceholder": "Digite sua senha",
+    "confirmPasswordLabel": "Confirme sua senha",
+    "confirmPasswordPlaceholder": "Confirme sua senha",
+    "signupButton": "Cadastrar",
+    "passwordMismatch": "As senhas não coincidem.",
+    "registrationError": "Erro ao criar conta.",
+    "autoLoginError": "Erro ao fazer login automaticamente."
+  },
+  "searchFriend": {
+    "placeholder": "Buscar por e-mail...",
+    "searchButton": "Buscar",
+    "results": "Resultados:",
+    "userNotFound": "Usuário não encontrado",
+    "error": "Usuário não encontrado ou ocorreu um erro",
+    "requestError": "Erro ao enviar solicitação de amizade",
+    "success": "Solicitação de amizade enviada com sucesso",
+    "pending": "Aguardando resposta",
+    "accepted": "Já são amigos",
+    "rejected": "Solicitação rejeitada",
+    "addFriend": "Adicionar"
+  },
+  "settingsPage": {
+    "title": "Configurações",
+    "themeLabel": "Tema",
+    "lightMode": "Modo Claro",
+    "darkMode": "Modo Escuro",
+    "languageLabel": "Idioma",
+    "portuguese": "Português (Brasil)",
+    "english": "Inglês (EUA)",
+    "manageSubscription": "Gerenciar Assinatura",
+    "comingSoon": "Em Breve",
+    "reportProblem": "Reportar Problema",
+    "deleteAccount": "Excluir Conta",
+    "deleteAccountError": "Erro ao excluir conta.",
+    "deleteAccountSuccess": "Conta excluída com sucesso."
+  },
+  "searchPage": {
+    "title": "Buscar Lembrete",
+    "loading": "Carregando lembretes...",
+    "fetchError": "Erro ao buscar lembretes"
+  }
+}

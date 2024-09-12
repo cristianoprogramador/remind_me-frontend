@@ -1,0 +1,162 @@
+{
+  "mainLayout": {
+    "title": "Remind-Me",
+    "home": "HomePage",
+    "search": "Search",
+    "profile": "Profile",
+    "friends": "Friends",
+    "settings": "Settings",
+    "logout": "Logout",
+    "logoutConfirm": "Are you sure you want to log out?"
+  },
+  "homepage": {
+    "title": "Upcoming Reminders",
+    "loading": "Loading reminders..."
+  },
+  "createRemind": {
+    "placeholder": "I need to remember...",
+    "fillAllFields": "Please fill in all required fields.",
+    "create": "Create",
+    "createSuccess": "Reminder created successfully!",
+    "createFailed": "Failed to create reminder",
+    "createError": "Error creating reminder"
+  },
+  "categorySelect": {
+    "placeholder": "Category",
+    "create": "Create \"{value}\"",
+    "createFailed": "Failed to create category",
+    "createError": "Error creating category",
+    "fetchFailed": "Failed to fetch categories",
+    "fetchError": "Error fetching categories",
+    "loading": "Loading categories...",
+    "noCategories": "No categories found"
+  },
+  "userSelect": {
+    "loading": "Loading friends...",
+    "placeholder": "Select users",
+    "fetchFailed": "Failed to fetch friends",
+    "fetchError": "Error fetching friends"
+  },
+  "remindList": {
+    "createdAt": "Created on",
+    "remindAt": "Remind on",
+    "updatedAt": "Edited on",
+    "category": "Category",
+    "createdBy": "Created by",
+    "participants": "Participants",
+    "updateFailed": "Failed to update reminder",
+    "updateError": "Error updating reminder"
+  },
+  "editRemind": {
+    "title": "Edit Reminder",
+    "notificationDate": "Notification Date",
+    "placeholder": "I need to remember...",
+    "save": "Save"
+  },
+  "pagination": {
+    "previous": "Previous",
+    "next": "Next",
+    "page": "Page",
+    "of": "of"
+  },
+  "loginPage": {
+    "title": "Sign in to your account!",
+    "welcomeBack": "Welcome back",
+    "emailLabel": "Email",
+    "emailPlaceholder": "Enter your email",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "loginButton": "Sign in",
+    "orSignInWith": "Or sign in with",
+    "noAccount": "Don't have an account?",
+    "signupNow": "Sign up now!"
+  },
+  "profilePage": {
+    "title": "Profile Page",
+    "nameLabel": "Name",
+    "emailLabel": "Email",
+    "emailNotificationsLabel": "Email Notifications",
+    "phoneLabel": "Phone",
+    "phoneNotificationsLabel": "SMS Notifications",
+    "enableNotificationsLabel": "Enable Notifications",
+    "weeklySummaryLabel": "Weekly Summary",
+    "weeklySummaryTooltip": "Summary of next week's reminders via email",
+    "updateButton": "Update",
+    "noChanges": "No changes detected.",
+    "nameUpdated": "Name updated successfully!",
+    "updateNameFailed": "Failed to update user name",
+    "notificationUpdated": "Notification settings updated successfully!",
+    "updateNotificationFailed": "Failed to update notification settings",
+    "updateError": "Error updating profile",
+    "fetchNotificationError": "Error fetching notification settings",
+    "loading": "Loading..."
+  },
+  "searchRemind": {
+    "placeholder": "Search for...",
+    "searchButton": "Search"
+  },
+  "friendsPage": {
+    "title": "Friends",
+    "receivedRequests": "Received Friend Requests",
+    "sentRequests": "Sent Friend Requests",
+    "unfriendButton": "Unfriend",
+    "accept": "Accept",
+    "reject": "Reject",
+    "awaitingResponse": "Awaiting response...",
+    "loading": "Loading...",
+    "fetchFriendRequestsError": "Error fetching friend requests",
+    "fetchFriendsError": "Error fetching friends",
+    "unfriendError": "Failed to unfriend",
+    "unfriendSuccess": "Friendship successfully removed!",
+    "respondRequestError": "Failed to respond to friend request"
+  },
+  "signupPage": {
+    "title": "Create your account!",
+    "subtitle": "Join us and start using the site!",
+    "nameLabel": "Name",
+    "namePlaceholder": "Enter your name",
+    "emailLabel": "Email",
+    "emailPlaceholder": "Enter your email",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "confirmPasswordLabel": "Confirm your password",
+    "confirmPasswordPlaceholder": "Confirm your password",
+    "signupButton": "Sign up",
+    "passwordMismatch": "Passwords do not match.",
+    "registrationError": "Error creating account.",
+    "autoLoginError": "Error automatically signing in."
+  },
+  "searchFriend": {
+    "placeholder": "Search by email...",
+    "searchButton": "Search",
+    "results": "Results:",
+    "userNotFound": "User not found",
+    "error": "User not found or an error occurred",
+    "requestError": "Error sending friend request",
+    "success": "Friend request sent successfully",
+    "pending": "Awaiting response",
+    "accepted": "Already friends",
+    "rejected": "Request rejected",
+    "addFriend": "Add"
+  },
+  "settingsPage": {
+    "title": "Settings",
+    "themeLabel": "Theme",
+    "lightMode": "Light Mode",
+    "darkMode": "Dark Mode",
+    "languageLabel": "Language",
+    "portuguese": "Portuguese (Brazil)",
+    "english": "English (US)",
+    "manageSubscription": "Manage Subscription",
+    "comingSoon": "Coming Soon",
+    "reportProblem": "Report Problem",
+    "deleteAccount": "Delete Account",
+    "deleteAccountError": "Error deleting account.",
+    "deleteAccountSuccess": "Account successfully deleted."
+  },
+  "searchPage": {
+    "title": "Search Reminder",
+    "loading": "Loading reminders...",
+    "fetchError": "Error fetching reminders"
+  }
+}
