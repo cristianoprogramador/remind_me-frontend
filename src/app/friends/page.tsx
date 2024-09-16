@@ -226,33 +226,35 @@ export default function FriendsPage() {
         {/* Solicitações de Amizade Enviadas */}
 
         <div className="w-full flex flex-col gap-4 mb-6">
-          <h2 className="text-xl font-bold mb-4 text-theme-text-color">
-            {t("friendsPage.sentRequests")}
-          </h2>
           {sentRequests.map((request) => (
             <div key={request.uuid}>
-              <div className="border border-theme-border-color rounded-md p-4 flex justify-between items-center bg-white">
-                <div className="flex items-center gap-4">
-                  {request.profileImageUrl ? (
-                    <Image
-                      src={request.profileImageUrl}
-                      alt="Profile"
-                      width={48}
-                      height={48}
-                      className="w-12 h-12 rounded-full"
-                    />
-                  ) : (
-                    <FaUser className="w-12 h-12 text-gray-400" />
-                  )}
-                  <div>
-                    <h2 className="text-lg font-semibold">{request.name}</h2>
-                    <p className="text-gray-600 md:text-base text-xs break-all">
-                      {request.email}
-                    </p>
+              <h2 className="text-xl font-bold mb-4 text-theme-text-color">
+                {t("friendsPage.sentRequests")}
+              </h2>
+              <div>
+                <div className="border border-theme-border-color rounded-md p-4 flex justify-between items-center bg-white">
+                  <div className="flex items-center gap-4">
+                    {request.profileImageUrl ? (
+                      <Image
+                        src={request.profileImageUrl}
+                        alt="Profile"
+                        width={48}
+                        height={48}
+                        className="w-12 h-12 rounded-full"
+                      />
+                    ) : (
+                      <FaUser className="w-12 h-12 text-gray-400" />
+                    )}
+                    <div>
+                      <h2 className="text-lg font-semibold">{request.name}</h2>
+                      <p className="text-gray-600 md:text-base text-xs break-all">
+                        {request.email}
+                      </p>
+                    </div>
                   </div>
-                </div>
-                <div className="text-sm text-gray-500 text-center">
-                  {t("friendsPage.awaitingResponse")}
+                  <div className="text-sm text-gray-500 text-center">
+                    {t("friendsPage.awaitingResponse")}
+                  </div>
                 </div>
               </div>
             </div>
