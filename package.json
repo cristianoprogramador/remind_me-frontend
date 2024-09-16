@@ -23,7 +23,8 @@
     "react-phone-input-2": "^2.15.1",
     "react-select": "^5.8.0",
     "react-toastify": "^10.0.5",
-    "tailwind-merge": "^2.5.2"
+    "tailwind-merge": "^2.5.2",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",

@@ -7,7 +7,41 @@
     "friends": "Friends",
     "settings": "Settings",
     "logout": "Logout",
-    "logoutConfirm": "Are you sure you want to log out?"
+    "logoutConfirm": "Are you sure you want to log out?",
+    "errorLogs": "Error Logs",
+    "users": "Users"
+  },
+  "errorLogs": {
+    "title": "Error Logs",
+    "statusCode": "Status Code",
+    "error": "Error",
+    "message": "Message",
+    "url": "URL",
+    "method": "Method",
+    "createdAt": "Created At",
+    "loading": "Loading",
+    "total": "Total",
+    "itemsPerPage": "Items per page",
+    "previous": "Previous",
+    "next": "Next",
+    "searchPlaceholder": "Type here and click Search",
+    "searchButton": "Search"
+  },
+  "users": {
+    "title": "Users",
+    "uuid": "UUID",
+    "email": "Email",
+    "type": "Type",
+    "disabled": "Disabled",
+    "createdAt": "Created At",
+    "total": "Total",
+    "itemsPerPage": "Items per page",
+    "previous": "Previous",
+    "next": "Next",
+    "searchPlaceholder": "Type here and click Search",
+    "searchButton": "Search",
+    "disabledYes": "Yes",
+    "disabledNo": "No"
   },
   "homepage": {
     "title": "Upcoming Reminders",

@@ -83,7 +83,6 @@ export default function FriendsPage() {
 
         const data: Friendship[] = await res.json();
 
-        // Filtra e mapeia os amigos, excluindo o usuário logado
         const friendsList = data.map((friendship) => {
           return friendship.user1.uuid === (session?.user as UserProps).id
             ? friendship.user2
@@ -166,12 +165,11 @@ export default function FriendsPage() {
                     {friend.email}
                   </p>
                 </div>
-                {/* Adiciona `ml-auto` para empurrar o botão para o canto direito */}
                 <button
                   className="ml-auto h-10 px-4 bg-gray-200 text-slate-800 transition-all duration-400 ease-in-out transform hover:bg-red-600 hover:text-white rounded-md text-sm"
                   onClick={() => handleUnfriend(friend.uuid)}
                 >
-                 {t("friendsPage.unfriendButton")}
+                  {t("friendsPage.unfriendButton")}
                 </button>
               </div>
             </div>
@@ -184,7 +182,7 @@ export default function FriendsPage() {
           {receivedRequests.map((request) => (
             <div key={request.uuid}>
               <h2 className="text-xl font-bold mb-4 text-theme-text-color">
-              {t("friendsPage.receivedRequests")}
+                {t("friendsPage.receivedRequests")}
               </h2>
               <div className="border border-theme-border-color rounded-md p-4 flex justify-between items-center bg-white">
                 <div className="flex items-center gap-4">
@@ -228,12 +226,11 @@ export default function FriendsPage() {
         {/* Solicitações de Amizade Enviadas */}
 
         <div className="w-full flex flex-col gap-4 mb-6">
+          <h2 className="text-xl font-bold mb-4 text-theme-text-color">
+            {t("friendsPage.sentRequests")}
+          </h2>
           {sentRequests.map((request) => (
             <div key={request.uuid}>
-              <h2 className="text-xl font-bold mb-4 text-white">
-              {t("friendsPage.sentRequests")}
-              </h2>
-
               <div className="border border-theme-border-color rounded-md p-4 flex justify-between items-center bg-white">
                 <div className="flex items-center gap-4">
                   {request.profileImageUrl ? (
@@ -255,7 +252,7 @@ export default function FriendsPage() {
                   </div>
                 </div>
                 <div className="text-sm text-gray-500 text-center">
-                {t("friendsPage.awaitingResponse")}
+                  {t("friendsPage.awaitingResponse")}
                 </div>
               </div>
             </div>

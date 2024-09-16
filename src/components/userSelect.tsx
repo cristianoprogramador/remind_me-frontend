@@ -17,7 +17,7 @@ const UserSelect: React.FC<UserSelectProps> = ({
   fixedUserId,
 }) => {
   const { data: session } = useSession();
-  const { t } = useTranslation(); // Hook para tradução
+  const { t } = useTranslation();
   const [friends, setFriends] = useState<Friend[]>([]);
   const [loading, setLoading] = useState(true);
   const { theme } = useTheme();
@@ -66,7 +66,6 @@ const UserSelect: React.FC<UserSelectProps> = ({
           };
         });
 
-        // Adiciona o usuário logado à lista de amigos
         const loggedInUser = {
           uuid: (session?.user as UserProps)?.id,
           name: (session?.user as UserProps)?.name || "",
@@ -76,7 +75,6 @@ const UserSelect: React.FC<UserSelectProps> = ({
 
         setFriends([loggedInUser, ...mappedFriends]);
 
-        // Garante que o usuário logado está sempre selecionado
         onChange([loggedInUser.uuid, ...selectedUserIds]);
       } catch (error) {
         console.error(t("userSelect.fetchError"), error);
@@ -88,7 +86,6 @@ const UserSelect: React.FC<UserSelectProps> = ({
     fetchFriends();
   }, [session]);
 
-  // Mapeia os amigos para o formato esperado pelo react-select
   const options = friends.map((friend) => ({
     value: friend.uuid,
     label: friend.name,
@@ -135,7 +132,7 @@ const UserSelect: React.FC<UserSelectProps> = ({
     }),
     multiValueRemove: (provided: any) => ({
       ...provided,
-      display: "none", // Oculta o botão de remover o item
+      display: "none",
     }),
   };
 

@@ -70,7 +70,6 @@ export default function SettingsPage() {
             {t("settingsPage.title")}
           </div>
 
-          {/* Tema */}
           <div className="w-full max-w-md mb-6 flex flex-row items-center justify-between gap-3">
             <label className="text-gray-700">
               {t("settingsPage.themeLabel")}
@@ -85,7 +84,6 @@ export default function SettingsPage() {
             </select>
           </div>
 
-          {/* Idioma */}
           <div className="w-full max-w-md mb-6 flex flex-row items-center justify-between gap-3">
             <label className="text-gray-700">
               {t("settingsPage.languageLabel")}
@@ -100,7 +98,6 @@ export default function SettingsPage() {
             </select>
           </div>
 
-          {/* Gerenciar Assinatura */}
           <div className="w-full max-w-md mb-6 flex flex-row items-center justify-center gap-3">
             <label className="text-gray-700 whitespace-nowrap w-full text-start">
               {t("settingsPage.manageSubscription")}
@@ -113,7 +110,6 @@ export default function SettingsPage() {
             </button>
           </div>
 
-          {/* Reportar Problema */}
           <div className="w-full max-w-md mb-6">
             <button
               className="w-full py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-700"
@@ -123,7 +119,6 @@ export default function SettingsPage() {
             </button>
           </div>
 
-          {/* Excluir Conta */}
           <div className="w-full max-w-md mb-6">
             <button
               className="w-full py-3 bg-red-500 text-white rounded-lg hover:bg-red-700"

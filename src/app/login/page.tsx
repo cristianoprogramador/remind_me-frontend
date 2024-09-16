@@ -35,7 +35,6 @@ export default function LoginPage() {
             </div>
             <div className="mt-3 text-sm">{t("loginPage.welcomeBack")}</div>
             {error && <div className="mt-4 text-red-500">{error}</div>}{" "}
-            {/* Exibir mensagem de erro */}
             <form onSubmit={handleSubmit} className="mt-6">
               <div className="mb-4">
                 <label

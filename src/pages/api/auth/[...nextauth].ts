@@ -10,6 +10,7 @@ interface UserProps {
   name?: string | null;
   email?: string | null;
   image?: string | null;
+  role?: string | null;
 }
 
 export const authOptions: NextAuthOptions = {
@@ -70,6 +71,7 @@ export const authOptions: NextAuthOptions = {
               name: data.user.name,
               email: data.user.email,
               image: data.user.image,
+              role: data.user.role,
             };
           } else {
             throw new Error("Usuário não encontrado ou senha incorreta");
@@ -87,6 +89,7 @@ export const authOptions: NextAuthOptions = {
         token.name = user.name;
         token.email = user.email;
         token.sub = user.id;
+        token.role = user.role;
       } else if (trigger === "update" && session) {
         return { ...token, ...session?.user };
       } else if (token.sub && !token.accessToken) {
@@ -103,6 +106,7 @@ export const authOptions: NextAuthOptions = {
         user.id = token?.sub || "";
         user.token = (token?.accessToken as string) || "";
         user.name = token.name || "";
+        user.role = token.role || "";
       }
       return session;
     },
@@ -123,6 +127,7 @@ export const authOptions: NextAuthOptions = {
       if (existingUser && existingUser.id) {
         user.id = existingUser.id;
         user.name = existingUser.name;
+        user.role = existingUser.role;
         return true;
       }
 
@@ -143,7 +148,8 @@ export const authOptions: NextAuthOptions = {
 
       const newUser = await resCreate.json();
       if (resCreate.ok && newUser.id) {
-        user.id = newUser.id; // Usa o UUID recém-criado do banco de dados
+        user.id = newUser.id;
+        user.role = newUser.role;
         return true;
       } else {
         console.error("Erro ao criar usuário");

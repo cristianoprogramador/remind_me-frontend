@@ -8,11 +8,13 @@ import { TfiWrite } from "react-icons/tfi";
 import { LuSettings } from "react-icons/lu";
 import { MdManageSearch, MdOutlineWbSunny } from "react-icons/md";
 import { FiLogOut } from "react-icons/fi";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { FaUserFriends } from "react-icons/fa";
 import { useTheme } from "@/app/theme-context";
 import { GoMoon } from "react-icons/go";
 import { useTranslation } from "react-i18next";
+import { AiOutlineBug } from "react-icons/ai";
+import { FiUsers } from "react-icons/fi";
 
 interface MainLayoutProps {
   children: ReactNode;
@@ -28,6 +30,8 @@ interface MenuItemProps {
 export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   const { theme, toggleTheme } = useTheme();
   const { t } = useTranslation();
+  const { data: session } = useSession();
+  const userRole = session?.user?.role;
 
   const handleLogout = () => {
     if (window.confirm("Tem certeza que deseja sair?")) {
@@ -123,6 +127,20 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
               title={t("mainLayout.friends")}
               icon={<FaUserFriends size={20} />}
             />
+            {userRole === "admin" && (
+              <>
+                <MenuItemSidebar
+                  path="/error-logs"
+                  title={t("mainLayout.errorLogs")}
+                  icon={<AiOutlineBug size={20} />}
+                />
+                <MenuItemSidebar
+                  path="/users"
+                  title={t("mainLayout.users")}
+                  icon={<FiUsers size={20} />}
+                />
+              </>
+            )}
             <MenuItemSidebar
               path="/settings"
               title={t("mainLayout.settings")}
@@ -179,6 +197,20 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
               title={t("mainLayout.friends")}
               icon={<FaUserFriends size={20} />}
             />
+            {userRole === "admin" && (
+              <>
+                <MenuItemHeader
+                  path="/error-logs"
+                  title={t("mainLayout.errorLogs")}
+                  icon={<AiOutlineBug size={20} />}
+                />
+                <MenuItemHeader
+                  path="/users"
+                  title={t("mainLayout.users")}
+                  icon={<FiUsers size={20} />}
+                />
+              </>
+            )}
             <MenuItemHeader
               path="/settings"
               title={t("mainLayout.settings")}

@@ -14,8 +14,11 @@ const resources = {
 };
 
 const getDefaultLanguage = () => {
-  const browserLanguage = navigator.language || navigator.languages[0];
-  return browserLanguage.startsWith("pt") ? "pt" : "en";
+  if (typeof window !== "undefined") {
+    const browserLanguage = navigator.language || navigator.languages[0];
+    return browserLanguage.startsWith("pt") ? "pt" : "en";
+  }
+  return "en";
 };
 
 i18n.use(initReactI18next).init({

@@ -7,7 +7,41 @@
     "friends": "Amigos",
     "settings": "Configurações",
     "logout": "Sair",
-    "logoutConfirm": "Tem certeza que deseja sair?"
+    "logoutConfirm": "Tem certeza que deseja sair?",
+    "errorLogs": "Logs de Erro",
+    "users": "Usuários Cadastrados"
+  },
+  "errorLogs": {
+    "title": "Logs de Erro",
+    "searchPlaceholder": "Pesquisar logs...",
+    "searchButton": "Pesquisar",
+    "statusCode": "Código de Status",
+    "error": "Erro",
+    "message": "Mensagem",
+    "url": "URL",
+    "method": "Método",
+    "createdAt": "Data de Criação",
+    "total": "Total",
+    "itemsPerPage": "Itens por página",
+    "previous": "Anterior",
+    "next": "Próximo",
+    "loading": "Carregando..."
+  },
+  "users": {
+    "title": "Usuários",
+    "uuid": "UUID",
+    "email": "E-mail",
+    "type": "Tipo",
+    "disabled": "Desabilitado",
+    "createdAt": "Data de Criação",
+    "total": "Total",
+    "itemsPerPage": "Itens por página",
+    "previous": "Anterior",
+    "next": "Próximo",
+    "searchPlaceholder": "Escreva aqui e clique em Buscar",
+    "searchButton": "Buscar",
+    "disabledYes": "Sim",
+    "disabledNo": "Não"
   },
   "homepage": {
     "title": "Próximos Lembretes",

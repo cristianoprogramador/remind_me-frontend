@@ -71,7 +71,7 @@ export default function ProfilePage() {
         );
 
         if (!resName.ok) {
-          throw new Error(t("profilePage.updateNameFailed")); // Tradução
+          throw new Error(t("profilePage.updateNameFailed"));
         }
 
         await update({
@@ -81,7 +81,7 @@ export default function ProfilePage() {
           },
         });
 
-        toast.success(t("profilePage.nameUpdated")); // Tradução
+        toast.success(t("profilePage.nameUpdated"));
       }
 
       if (
@@ -114,14 +114,14 @@ export default function ProfilePage() {
         });
 
         if (!resNotification.ok) {
-          throw new Error(t("profilePage.updateNotificationFailed")); // Tradução
+          throw new Error(t("profilePage.updateNotificationFailed"));
         }
 
-        toast.success(t("profilePage.notificationUpdated")); // Tradução
+        toast.success(t("profilePage.notificationUpdated"));
       }
     } catch (error) {
-      console.error(t("profilePage.updateError"), error); // Tradução
-      toast.error(t("profilePage.updateError")); // Tradução
+      console.error(t("profilePage.updateError"), error);
+      toast.error(t("profilePage.updateError"));
     }
   };
 
