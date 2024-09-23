@@ -57,7 +57,7 @@
   },
   "categorySelect": {
     "placeholder": "Categoria",
-    "create": "Criar \"{value}\"",
+    "create": "Criar {{value}}",
     "createFailed": "Falha ao criar a categoria",
     "createError": "Erro ao criar a categoria",
     "fetchFailed": "Falha ao buscar categorias",

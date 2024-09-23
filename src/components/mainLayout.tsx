@@ -37,7 +37,7 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   const userRole = session?.user?.role;
 
   const handleLogout = () => {
-    if (window.confirm("Tem certeza que deseja sair?")) {
+    if (window.confirm(t("mainLayout.logoutConfirm"))) {
       signOut({ callbackUrl: "/login" });
     }
   };
@@ -155,7 +155,7 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
               onClick={handleLogout}
             />
           </ul>
-          <div className="flex flex-row gap-4 justify-center mt-auto mb-4">
+          <div className="flex flex-col lg:flex-row gap-4 justify-center items-center mt-auto mb-4">
             {theme === "light" ? (
               <GoMoon
                 size={20}

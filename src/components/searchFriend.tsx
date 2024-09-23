@@ -122,7 +122,7 @@ export function SearchFriend() {
               ) : (
                 <button
                   onClick={() => handleAddFriend(searchResult.uuid)}
-                  className={`ml-auto h-10 w-32 ${
+                  className={`ml-auto text-sm h-12 w-32 ${
                     isPending
                       ? "bg-gray-400 cursor-not-allowed"
                       : "bg-green-500 hover:bg-green-600"

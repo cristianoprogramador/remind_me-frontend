@@ -57,7 +57,7 @@
   },
   "categorySelect": {
     "placeholder": "Category",
-    "create": "Create \"{value}\"",
+    "create": "Create {{value}}",
     "createFailed": "Failed to create category",
     "createError": "Error creating category",
     "fetchFailed": "Failed to fetch categories",

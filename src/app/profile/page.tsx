@@ -97,7 +97,7 @@ export default function ProfilePage() {
 
         const method = notificationExists ? "PUT" : "POST";
 
-        console.log(method);
+        const formattedPhone = phone.startsWith("+") ? phone : `+${phone}`;
 
         const resNotification = await fetch(notificationEndpoint, {
           method,
@@ -108,7 +108,7 @@ export default function ProfilePage() {
           body: JSON.stringify({
             emailNotify: emailNotifications,
             phoneNotify: phoneNotifications,
-            phoneNumber: phone,
+            phoneNumber: formattedPhone,
             weeklySummary: emailNotifications ? weeklySummary : false,
           }),
         });
@@ -175,6 +175,8 @@ export default function ProfilePage() {
   if (loading) {
     return <div>{t("profilePage.loading")}</div>;
   }
+
+  console.log(phone);
 
   return (
     <div className="flex flex-col justify-center py-8 gap-10 items-center h-full">

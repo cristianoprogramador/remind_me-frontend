@@ -27,6 +27,8 @@ i18n.use(initReactI18next).init({
   fallbackLng: "pt",
   interpolation: {
     escapeValue: false,
+    prefix: '{{',
+    suffix: '}}',
   },
 });
 
