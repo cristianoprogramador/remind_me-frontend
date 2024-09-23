@@ -15,6 +15,7 @@ import { GoMoon } from "react-icons/go";
 import { useTranslation } from "react-i18next";
 import { AiOutlineBug } from "react-icons/ai";
 import { FiUsers } from "react-icons/fi";
+import { useLanguage } from "@/context/i18nContext";
 
 interface MainLayoutProps {
   children: ReactNode;
@@ -30,6 +31,8 @@ interface MenuItemProps {
 export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   const { theme, toggleTheme } = useTheme();
   const { t } = useTranslation();
+  const { language, changeLanguage } = useLanguage();
+
   const { data: session } = useSession();
   const userRole = session?.user?.role;
 
@@ -168,6 +171,32 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
                 color="white"
               />
             )}
+            <div className="flex flex-row gap-2">
+              <Image
+                src={"/flagbrazil.svg"}
+                alt="PT"
+                width={20}
+                height={20}
+                className={`cursor-pointer ${
+                  language === "pt-BR"
+                    ? "border rounded px-[2px] border-blue-500"
+                    : ""
+                }`}
+                onClick={() => changeLanguage("pt-BR")}
+              />
+              <Image
+                src={"/flagEUA.svg"}
+                alt="EN"
+                width={20}
+                height={20}
+                className={`cursor-pointer ${
+                  language === "en-US"
+                    ? "border rounded px-[2px] border-blue-500"
+                    : ""
+                }`}
+                onClick={() => changeLanguage("en-US")}
+              />
+            </div>
           </div>
         </aside>
 

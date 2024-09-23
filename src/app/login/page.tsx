@@ -1,6 +1,8 @@
 "use client";
 
+import { useLanguage } from "@/context/i18nContext";
 import { signIn } from "next-auth/react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -10,6 +12,7 @@ export default function LoginPage() {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const { t } = useTranslation();
+  const { language, changeLanguage } = useLanguage();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -26,7 +29,7 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="flex min-h-screen w-full justify-between items-center bg-gradient-to-r from-slate-900 to-slate-700">
+    <main className="relative flex min-h-screen w-full justify-between items-center bg-gradient-to-r from-slate-900 to-slate-700">
       <div className="flex flex-row h-full gap-4 items-center justify-center w-full">
         <div className="flex lg:w-1/2 justify-center items-center">
           <div className="p-10 rounded-md sm:border bg-gradient-to-r from-gray-200 to-white">
@@ -114,6 +117,32 @@ export default function LoginPage() {
             </div>
           </div>
         </div>
+      </div>
+      <div className="absolute top-4 right-4 flex flex-row gap-2">
+        <Image
+          src={"/flagbrazil.svg"}
+          alt="PT"
+          width={20}
+          height={20}
+          className={`cursor-pointer ${
+            language === "pt-BR"
+              ? "border rounded px-[2px] border-blue-500"
+              : ""
+          }`}
+          onClick={() => changeLanguage("pt-BR")}
+        />
+        <Image
+          src={"/flagEUA.svg"}
+          alt="EN"
+          width={20}
+          height={20}
+          className={`cursor-pointer ${
+            language === "en-US"
+              ? "border rounded px-[2px] border-blue-500"
+              : ""
+          }`}
+          onClick={() => changeLanguage("en-US")}
+        />
       </div>
     </main>
   );
