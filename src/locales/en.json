@@ -103,7 +103,10 @@
     "loginButton": "Sign in",
     "orSignInWith": "Or sign in with",
     "noAccount": "Don't have an account?",
-    "signupNow": "Sign up now!"
+    "signupNow": "Sign up now!",
+    "showPassword": "Show Password",
+    "hidePassword": "Hide Password"
+
   },
   "profilePage": {
     "title": "Profile Page",

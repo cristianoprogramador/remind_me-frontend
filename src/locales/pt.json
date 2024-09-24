@@ -103,7 +103,9 @@
     "loginButton": "Entrar",
     "orSignInWith": "Entre com",
     "noAccount": "Ainda não tem conta?",
-    "signupNow": "Cadastre-se agora!"
+    "signupNow": "Cadastre-se agora!",
+    "showPassword": "Mostrar senha",
+    "hidePassword": "Esconder senha"
   },
   "profilePage": {
     "title": "Página de Perfil",
