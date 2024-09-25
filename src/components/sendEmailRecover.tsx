@@ -63,7 +63,7 @@ export const ModalSendEmail = ({
         />
         <button
           type="submit"
-          className="cursor-pointer mt-5 font-semibold rounded-lg text-base text-center bg-[#0C346E] text-white hover:opacity-80 py-3"
+          className="cursor-pointer mt-5 font-semibold rounded-lg text-base text-center bg-[#0C346E] text-black hover:opacity-80 py-3"
         >
           {t("modalSendEmail.resetPasswordMessage")}
         </button>
