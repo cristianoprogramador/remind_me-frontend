@@ -105,8 +105,8 @@
     "noAccount": "Don't have an account?",
     "signupNow": "Sign up now!",
     "showPassword": "Show Password",
-    "hidePassword": "Hide Password"
-
+    "hidePassword": "Hide Password",
+    "forgotPassword": "Forgot your password?"
   },
   "profilePage": {
     "title": "Profile Page",
@@ -195,5 +195,21 @@
     "title": "Search Reminder",
     "loading": "Loading reminders...",
     "fetchError": "Error fetching reminders"
+  },
+  "modalSendEmail": {
+    "resetPassword": "If the email is registered, you will receive a link to reset your password.",
+    "errorResetPassword": "Error sending password reset email.",
+    "typeEmail": "Enter your email",
+    "resetPasswordMessage": "Reset Password"
+  },
+  "recoverPassword": {
+    "title": "Reset Password",
+    "newPassword": "New Password",
+    "confirmPassword": "Confirm New Password",
+    "resetPasswordButton": "Reset Password",
+    "passwordsDoNotMatch": "The passwords do not match.",
+    "passwordResetSuccess": "Password successfully reset!",
+    "errorResetPassword": "Error resetting the password.",
+    "invalidToken": "Invalid token"
   }
 }

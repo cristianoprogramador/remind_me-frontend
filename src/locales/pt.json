@@ -105,7 +105,8 @@
     "noAccount": "Ainda não tem conta?",
     "signupNow": "Cadastre-se agora!",
     "showPassword": "Mostrar senha",
-    "hidePassword": "Esconder senha"
+    "hidePassword": "Esconder senha",
+    "forgotPassword": "Esqueceu a senha?"
   },
   "profilePage": {
     "title": "Página de Perfil",
@@ -194,5 +195,21 @@
     "title": "Buscar Lembrete",
     "loading": "Carregando lembretes...",
     "fetchError": "Erro ao buscar lembretes"
+  },
+  "modalSendEmail": {
+    "resetPassword": "Se o email estiver cadastrado, você receberá um link para redefinir sua senha.",
+    "errorResetPassword": "Erro ao enviar email de redefinição de senha.",
+    "typeEmail": "Digite seu email",
+    "resetPasswordMessage": "Resetar Senha"
+  },
+  "recoverPassword": {
+    "title": "Redefinir Senha",
+    "newPassword": "Nova Senha",
+    "confirmPassword": "Confirmar Nova Senha",
+    "resetPasswordButton": "Redefinir Senha",
+    "passwordsDoNotMatch": "As senhas não coincidem.",
+    "passwordResetSuccess": "Senha redefinida com sucesso!",
+    "errorResetPassword": "Erro ao redefinir a senha.",
+    "invalidToken": "Token invalido"
   }
 }

@@ -23,7 +23,7 @@ const Modal: React.FC<IModalProps> = ({ isOpen, setIsOpen, children }) => {
           <div>
             <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
             <div className="fixed inset-0 flex items-center justify-center max-h-screen p-4 overflow-auto sm:items-center">
-              <Dialog.Panel className="min-w-[550px] max-h-[90%] overflow-y-auto p-4 mx-auto bg-theme-modal-color rounded text-theme-text-color border-[1px]">
+              <Dialog.Panel className="lg:min-w-[550px] max-h-[90%] overflow-y-auto p-4 mx-auto bg-theme-modal-color rounded text-theme-text-color border-[1px]">
                 {children}
               </Dialog.Panel>
             </div>

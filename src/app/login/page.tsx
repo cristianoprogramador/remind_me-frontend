@@ -1,5 +1,6 @@
 "use client";
 
+import { ModalSendEmail } from "@/components/sendEmailRecover";
 import { useLanguage } from "@/context/i18nContext";
 import { signIn } from "next-auth/react";
 import Image from "next/image";
@@ -14,6 +15,9 @@ export default function LoginPage() {
   const { t } = useTranslation();
   const { language, changeLanguage } = useLanguage();
   const [showPassword, setShowPassword] = useState(false);
+  const [modalInfo, setModalInfo] = useState(false);
+
+  const handleModalInfo = () => setModalInfo(true);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -61,7 +65,7 @@ export default function LoginPage() {
                 />
               </div>
 
-              <div className="mb-6">
+              <div className="mb-1">
                 <label
                   htmlFor="password"
                   className="block text-sm font-medium text-gray-700"
@@ -94,7 +98,14 @@ export default function LoginPage() {
                   </div>
                 </div>
               </div>
-
+              <div className="flex flex-row items-center justify-end md:w-full mb-4">
+                <div
+                  className="text-blue-700 font-semibold text-right text-sm cursor-pointer"
+                  onClick={handleModalInfo}
+                >
+                  {t("loginPage.forgotPassword")}
+                </div>
+              </div>
               <button
                 type="submit"
                 className="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-md hover:bg-indigo-700"
@@ -166,6 +177,8 @@ export default function LoginPage() {
           onClick={() => changeLanguage("en-US")}
         />
       </div>
+
+      <ModalSendEmail modalInfo={modalInfo} setModalInfo={setModalInfo} />
     </main>
   );
 }
