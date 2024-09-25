@@ -59,11 +59,11 @@ export const ModalSendEmail = ({
           onChange={(e) => setEmail(e.target.value)}
           placeholder={t("modalSendEmail.typeEmail")}
           required
-          className="p-2 border min-w-96"
+          className="p-2 border min-w-96 text-black"
         />
         <button
           type="submit"
-          className="cursor-pointer mt-5 font-semibold rounded-lg text-base text-center bg-[#0C346E] text-black hover:opacity-80 py-3"
+          className="cursor-pointer mt-5 font-semibold rounded-lg text-base text-center bg-[#0C346E] text-white hover:opacity-80 py-3"
         >
           {t("modalSendEmail.resetPasswordMessage")}
         </button>
